@@ -43,31 +43,60 @@ const TIMER_CSS = `
     -webkit-text-fill-color:#475569;
     opacity:1;
   }
+  .timed-status {
+    display:block;
+    margin-top:10px;
+    font-weight:900;
+  }
 `;
 
 const TIMED_JS = `
 const QUIZ_TIME_LIMIT_SECONDS = 300;
-const QUIZ_STORAGE_KEY = 'tri-quiz:trig-basic-2026:timer-v1';
+const QUIZ_STORAGE_KEY = 'tri-quiz:trig-basic-2026:timer-v2';
 let quizTimerId = null;
 let quizLocked = false;
-let quizStartAt = Number(localStorage.getItem(QUIZ_STORAGE_KEY + ':startAt')) || 0;
-if (!quizStartAt) {
-  quizStartAt = Date.now();
-  localStorage.setItem(QUIZ_STORAGE_KEY + ':startAt', String(quizStartAt));
-}
+let quizStartAt = 0;
 
 const timerPill = document.getElementById('timerPill');
 const originalGrade = grade;
 const originalResetAll = resetAll;
+const gradeBtn = document.getElementById('gradeBtn');
+const resetBtn = document.getElementById('resetBtn');
 
 function timerInputs() {
   return [...document.querySelectorAll('.blank input')];
+}
+
+function storageGet(key, fallback = null) {
+  try { return localStorage.getItem(key) ?? fallback; } catch (e) { return fallback; }
+}
+
+function storageSet(key, value) {
+  try { localStorage.setItem(key, value); } catch (e) {}
+}
+
+function storageRemove(key) {
+  try { localStorage.removeItem(key); } catch (e) {}
+}
+
+function clearQuizStorage() {
+  storageRemove(QUIZ_STORAGE_KEY + ':startAt');
+  storageRemove(QUIZ_STORAGE_KEY + ':answers');
+  storageRemove(QUIZ_STORAGE_KEY + ':finished');
 }
 
 function formatSeconds(sec) {
   const m = Math.floor(sec / 60);
   const s = sec % 60;
   return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+function ensureStartAt() {
+  quizStartAt = Number(storageGet(QUIZ_STORAGE_KEY + ':startAt', '0')) || 0;
+  if (!quizStartAt) {
+    quizStartAt = Date.now();
+    storageSet(QUIZ_STORAGE_KEY + ':startAt', String(quizStartAt));
+  }
 }
 
 function secondsLeft() {
@@ -83,12 +112,12 @@ function renderTimer() {
 
 function saveAnswers() {
   const values = timerInputs().map(input => input.value);
-  localStorage.setItem(QUIZ_STORAGE_KEY + ':answers', JSON.stringify(values));
+  storageSet(QUIZ_STORAGE_KEY + ':answers', JSON.stringify(values));
 }
 
 function restoreAnswers() {
   try {
-    const values = JSON.parse(localStorage.getItem(QUIZ_STORAGE_KEY + ':answers') || '[]');
+    const values = JSON.parse(storageGet(QUIZ_STORAGE_KEY + ':answers', '[]'));
     timerInputs().forEach((input, i) => {
       if (values[i] != null) input.value = values[i];
     });
@@ -96,18 +125,35 @@ function restoreAnswers() {
   } catch (e) {}
 }
 
+function removeTimedStatus() {
+  const old = document.getElementById('timedStatus');
+  if (old) old.remove();
+}
+
+function appendTimedStatus(reason) {
+  removeTimedStatus();
+  const span = document.createElement('span');
+  span.id = 'timedStatus';
+  span.className = 'timed-status';
+  span.textContent = reason === 'timeout'
+    ? '時間切れ。自動採点しました。もう一度やる場合は「リセット」を押してください。'
+    : '提出済み。もう一度やる場合は「リセット」を押してください。';
+  resultBox.appendChild(span);
+}
+
+function setInputsLocked(locked) {
+  timerInputs().forEach(input => input.disabled = locked);
+  document.querySelectorAll('.key').forEach(btn => btn.disabled = locked);
+  gradeBtn.disabled = locked;
+  resetBtn.disabled = false;
+}
+
 function setQuizLocked(reason) {
-  timerInputs().forEach(input => input.disabled = true);
-  document.querySelectorAll('.key').forEach(btn => btn.disabled = true);
-  document.getElementById('gradeBtn').disabled = true;
-  document.getElementById('resetBtn').disabled = true;
+  setInputsLocked(true);
   timerPill.textContent = '00:00';
   timerPill.classList.add('danger');
-
-  const extra = reason === 'timeout'
-    ? '<br><strong>時間切れ。自動採点しました。入力はロック済みです。</strong>'
-    : '<br><strong>提出済み。入力はロック済みです。</strong>';
-  resultBox.innerHTML += extra;
+  resetBtn.textContent = 'リセットしてもう一回';
+  appendTimedStatus(reason);
 }
 
 function finishTimedQuiz(reason) {
@@ -115,7 +161,7 @@ function finishTimedQuiz(reason) {
   quizLocked = true;
   clearInterval(quizTimerId);
   saveAnswers();
-  localStorage.setItem(QUIZ_STORAGE_KEY + ':finished', reason || 'submitted');
+  storageSet(QUIZ_STORAGE_KEY + ':finished', reason || 'submitted');
   originalGrade();
   setQuizLocked(reason);
 }
@@ -124,31 +170,48 @@ grade = function() {
   finishTimedQuiz('submitted');
 };
 
-resetAll = function() {
-  if (quizLocked) return;
-  originalResetAll();
-  localStorage.removeItem(QUIZ_STORAGE_KEY + ':answers');
-};
-
-function initTimedQuiz() {
-  restoreAnswers();
-  timerInputs().forEach(input => input.addEventListener('input', saveAnswers));
-
-  if (localStorage.getItem(QUIZ_STORAGE_KEY + ':finished')) {
-    originalGrade();
-    quizLocked = true;
-    setQuizLocked('submitted');
-    return;
-  }
-
+function startTimer() {
+  clearInterval(quizTimerId);
+  ensureStartAt();
   if (renderTimer() <= 0) {
     finishTimedQuiz('timeout');
     return;
   }
-
   quizTimerId = setInterval(() => {
     if (renderTimer() <= 0) finishTimedQuiz('timeout');
   }, 250);
+}
+
+resetAll = function() {
+  clearInterval(quizTimerId);
+  quizLocked = false;
+  clearQuizStorage();
+  removeTimedStatus();
+  setInputsLocked(false);
+  resetBtn.textContent = 'リセット';
+  timerPill.classList.remove('danger');
+  originalResetAll();
+  ensureStartAt();
+  renderTimer();
+  startTimer();
+  const first = timerInputs()[0];
+  if (first) first.focus();
+};
+
+function initTimedQuiz() {
+  timerInputs().forEach(input => input.addEventListener('input', saveAnswers));
+  ensureStartAt();
+  restoreAnswers();
+
+  const finishedReason = storageGet(QUIZ_STORAGE_KEY + ':finished', '');
+  if (finishedReason) {
+    originalGrade();
+    quizLocked = true;
+    setQuizLocked(finishedReason);
+    return;
+  }
+
+  startTimer();
 }
 `;
 
@@ -164,7 +227,7 @@ function patchHtml(html) {
   out = out.replace('<h1>三角比脳トレクイズ</h1>', '<h1>三角比 基礎クイズ</h1>');
   out = out.replace('<div class="stat" id="scorePill">未採点</div>', '<div class="stat timer" id="timerPill">05:00</div>\n    <div class="stat" id="scorePill">未採点</div>');
   out = out.replace('<button id="gradeBtn">採点する</button>', '<button id="gradeBtn">提出して採点</button>');
-  out = out.replace('<strong>使い方：</strong>□に答えを入力して「採点する」。<br>', '<strong>使い方：</strong>□に答えを入力して、5分以内に「提出して採点」。時間切れで自動採点し、入力をロックします。<br>');
+  out = out.replace('<strong>使い方：</strong>□に答えを入力して「採点する」。<br>', '<strong>使い方：</strong>□に答えを入力して、5分以内に「提出して採点」。時間切れで自動採点し、入力をロックします。もう一度やる場合はリセットできます。<br>');
   out = out.replace(EVENT_BLOCK, TIMED_JS + '\n' + EVENT_BLOCK.replace('createInputs();', 'createInputs();\ninitTimedQuiz();'));
   return out;
 }
