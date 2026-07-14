@@ -15,12 +15,24 @@ const SOURCE_URL='https://raw.githack.com/kotam913-art/tri-quiz/9e2e0538401df9ba
 
 function patchHtml(html){
   let out=html;
-  out=out.replace("const LIMIT=300, KEY='tri-quiz:angle-circle-2026:v1', TOL=7;","const LIMIT=300, KEY='tri-quiz:angle-circle-2026:v2', TOL=12;");
+  out=out.replace("const LIMIT=300, KEY='tri-quiz:angle-circle-2026:v1', TOL=7;","const LIMIT=300, KEY='tri-quiz:angle-circle-2026:v3', TOL=12;");
   out=out.replace('.unit .hit{fill:transparent;stroke:transparent;stroke-width:24;cursor:crosshair}', '.unit .hit{fill:rgba(37,99,235,.001);stroke:transparent;stroke-width:24;cursor:crosshair;pointer-events:all}');
   out=out.replace('空欄を埋め、単位円は<strong>円周上を3か所タップ</strong>して半直線を作ります。入力順は小さい角から。第1象限は見本、第2象限の度数法はヒントです。','空欄を埋め、単位円は<strong>円の内側を3か所タップ</strong>して半直線を作ります。タップした角度は1°単位で表示され、目標角から±12°以内を正解とします。入力順は小さい角から。第1象限は見本、第2象限の度数法はヒントです。');
   out=out.replace("function tapCircle(e,q){if(locked||!attemptStarted)return;const c=circles[q];if(c.rays.length>=3)return;const r=c.svg.getBoundingClientRect(),x=(e.clientX-r.left)*260/r.width,y=(e.clientY-r.top)*260/r.height;let a=Math.atan2(130-y,x-130)*180/Math.PI;if(a<0)a+=360;c.rays.push(a);renderCircle(q);save();updateProgress()}","function tapCircle(e,q){if(locked||!attemptStarted)return;const c=circles[q];if(c.rays.length>=3)return;const r=c.svg.getBoundingClientRect(),x=(e.clientX-r.left)*260/r.width,y=(e.clientY-r.top)*260/r.height;let a=Math.atan2(130-y,x-130)*180/Math.PI;if(a<0)a+=360;a=Math.round(a);c.rays.push(a);renderCircle(q);save();updateProgress()}");
   out=out.replace("c.rays.forEach((a,i)=>drawRay(svg,a,grade?(matches[i]?'ray ok':'ray ng'):'ray'));","c.rays.forEach((a,i)=>drawRay(svg,a,grade?(matches[i]?'ray ok':'ray ng'):'ray',Math.round(a)+'°'));");
   out=out.replace("box.querySelector('.tapcount').textContent=c.rays.length+' / 3本';","box.querySelector('.tapcount').textContent=c.rays.length+' / 3本'+(c.rays.length?'（'+c.rays.map(a=>Math.round(a)+'°').join('・')+'）':'');");
+  out=out.replaceAll('placeholder="例 2π/3"','placeholder="弧度法"');
+  out=out.replaceAll('placeholder="例 3π/4"','placeholder="弧度法"');
+  out=out.replaceAll('placeholder="例 5π/6"','placeholder="弧度法"');
+  out=out.replaceAll('placeholder="例 7π/6"','placeholder="弧度法"');
+  out=out.replaceAll('placeholder="例 5π/4"','placeholder="弧度法"');
+  out=out.replaceAll('placeholder="例 4π/3"','placeholder="弧度法"');
+  out=out.replaceAll('placeholder="例 5π/3"','placeholder="弧度法"');
+  out=out.replaceAll('placeholder="例 7π/4"','placeholder="弧度法"');
+  out=out.replaceAll('placeholder="例 11π/6"','placeholder="弧度法"');
+  out=out.replace('<strong>120°・135°・150°を作図</strong>','<strong>上の3つの角を作図</strong>');
+  out=out.replace('<strong>210°・225°・240°を作図</strong>','<strong>入力した3つの角を作図</strong>');
+  out=out.replace('<strong>300°・315°・330°を作図</strong>','<strong>入力した3つの角を作図</strong>');
   out=out.replace('円周をタップ','円の内側をタップ');
   return out;
 }
