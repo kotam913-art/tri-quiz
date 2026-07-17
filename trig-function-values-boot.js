@@ -1,0 +1,12 @@
+function lock(v){locked=v;document.querySelectorAll('.choice,.frac input,.key').forEach(x=>x.disabled=v);submit.disabled=v;reset.textContent=v?'リセットしてもう一回':'リセット'}
+const left=()=>Math.max(0,LIMIT-Math.floor((Date.now()-startAt)/1000));
+function tick(){const s=left();timer.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');if(!s)finish('timeout')}
+function run(){clearInterval(timerId);tick();timerId=setInterval(tick,250)}
+function finish(r){if(locked||!startAt)return;clearInterval(timerId);save();store(':done',r);grade();lock(true);if(r==='timeout')timer.textContent='00:00';result.scrollIntoView({behavior:'smooth'})}
+function resetAll(){clearInterval(timerId);clear();state={};startAt=0;locked=false;active=null;result.classList.remove('show');document.querySelectorAll('.correct,.wrong,.good,.bad,.ok,.ng,.show').forEach(x=>{if(!x.classList.contains('overlay'))x.classList.remove('correct','wrong','good','bad','ok','ng','show')});document.querySelectorAll('.mark').forEach(x=>x.textContent='');document.querySelectorAll('.score').forEach(x=>x.textContent='— / 7');document.querySelectorAll('.card').forEach(render);count();timer.textContent='05:00';lock(false);submit.disabled=true;overlay.classList.remove('hide');scrollTo({top:0,behavior:'smooth'})}
+grid.innerHTML=Q.map(card).join('');
+document.querySelectorAll('.card').forEach((c,i)=>{draw(c,Q[i].angle);c.querySelectorAll('.choice').forEach(b=>b.onclick=()=>{if(locked)return;fs(c.dataset.id)[b.dataset.f]=b.dataset.v;save();render(c);count()});c.querySelectorAll('.frac input').forEach(x=>{x.onfocus=()=>active=x;x.oninput=()=>{const w=x.closest('.frac'),z=vf(fs(c.dataset.id),w.dataset.f);z[x.dataset.p]=x.value;save();count()}});c.querySelector('.hintbtn').onclick=()=>c.querySelector('.hint').classList.toggle('show')});
+document.querySelectorAll('.key').forEach(b=>b.onclick=()=>{if(!active||locked)return;active.value+=b.dataset.add;active.dispatchEvent(new Event('input'));active.focus()});
+$('#start').onclick=()=>{startAt=Date.now();store(':start',startAt);overlay.classList.add('hide');lock(false);run()};submit.onclick=()=>finish('done');reset.onclick=resetAll;
+try{state=JSON.parse(get(':state','{}'))||{}}catch(e){state={}}
+document.querySelectorAll('.card').forEach(render);count();startAt=Number(get(':start','0'));const done=get(':done');if(startAt){overlay.classList.add('hide');if(done){grade();lock(true)}else if(left()<=0)finish('timeout');else{lock(false);run()}}else{lock(false);submit.disabled=true}
