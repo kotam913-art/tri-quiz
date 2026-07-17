@@ -1,2 +1,2 @@
 function frac(f,j,q){return `<label class="row"><span class="fn">${f}</span><span class="frac" data-f="${f}"><input data-p="n" placeholder="${q.ph[j][0]}" aria-label="${f}の分子"><i class="bar"></i><input data-p="d" placeholder="${q.ph[j][1]}" aria-label="${f}の分母"></span><span class="mark"></span></label>`}
-function thetaValue(v){const s=String(v),i=s.lastIndexOf('/');if(i<0)return `<span>${s}</span>`;return `<span class="theta-frac"><span>${s.slice(0,i)}</span><i></i><span>${s.slice(i+1)}</span></span>`
+function thetaValue(v){const s=String(v),i=s.lastIndexOf('/');if(i<0)return `<span>${s}</span>`;return `<span class="theta-frac"><span>${s.slice(0,i)}</span><i></i><span>${s.slice(i+1)}</span></span>`}
