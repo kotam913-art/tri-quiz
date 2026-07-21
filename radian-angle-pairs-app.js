@@ -2,7 +2,7 @@
   'use strict';
   const DATA=window.RADIAN_QUIZ_DATA;
   const UI=window.RadianQuizUI;
-  const KEY='tri-quiz:radian-angle-pairs-2026:v1';
+  const KEY='tri-quiz:radian-angle-pairs-2026:v2';
   const LIMIT=300;
   const $=selector=>document.querySelector(selector);
   const timer=$('#timer');
@@ -50,8 +50,8 @@
   function updatePair(q){
     const card=document.querySelector(`[data-id="${q.id}"]`);
     const selected=state.pairs[q.id];
-    card.querySelectorAll('.angle-chip').forEach(button=>button.classList.toggle('selected',selected.includes(Number(button.dataset.angle))));
-    UI.drawCircle(card.querySelector('svg'),selected,q.answers,false);
+    card.querySelectorAll('.quadrant-hit').forEach(button=>button.classList.toggle('selected',selected.includes(Number(button.dataset.quadrant))));
+    UI.drawCircle(card.querySelector('svg'),selected,q,false);
   }
   function updateAll(){
     DATA.conversions.forEach(updateConversion);
@@ -72,15 +72,15 @@
     DATA.pairs.forEach(q=>{
       const card=document.querySelector(`[data-id="${q.id}"]`);
       const note=card.querySelector('.limit-note');
-      card.querySelectorAll('.angle-chip').forEach(button=>button.addEventListener('click',()=>{
+      card.querySelectorAll('.quadrant-hit').forEach(button=>button.addEventListener('click',()=>{
         if(locked)return;
-        const angle=Number(button.dataset.angle);
+        const quadrant=Number(button.dataset.quadrant);
         const selected=state.pairs[q.id];
-        const index=selected.indexOf(angle);
+        const index=selected.indexOf(quadrant);
         note.textContent='';
         if(index>=0)selected.splice(index,1);
-        else if(selected.length<2)selected.push(angle);
-        else{note.textContent='2つまでです。選び直す角を先に外そう。';return}
+        else if(selected.length<2)selected.push(quadrant);
+        else{note.textContent='三角形は2つまでです。取り消す象限をもう一度タップしよう。';return}
         selected.sort((a,b)=>a-b);
         save();
         updatePair(q);
@@ -109,18 +109,18 @@
     DATA.pairs.forEach(q=>{
       const card=document.querySelector(`[data-id="${q.id}"]`);
       const selected=state.pairs[q.id];
-      const ok=sameAngles(selected,q.answers);
+      const ok=sameAngles(selected,q.quadrants);
       if(ok)total++;
-      card.querySelectorAll('.angle-chip').forEach(button=>{
-        const angle=Number(button.dataset.angle);
+      card.querySelectorAll('.quadrant-hit').forEach(button=>{
+        const quadrant=Number(button.dataset.quadrant);
         button.classList.remove('selected');
-        button.classList.toggle('correct',selected.includes(angle)&&q.answers.includes(angle));
-        button.classList.toggle('wrong',selected.includes(angle)&&!q.answers.includes(angle));
-        button.classList.toggle('missed',!selected.includes(angle)&&q.answers.includes(angle));
+        button.classList.toggle('correct',selected.includes(quadrant)&&q.quadrants.includes(quadrant));
+        button.classList.toggle('wrong',selected.includes(quadrant)&&!q.quadrants.includes(quadrant));
+        button.classList.toggle('missed',!selected.includes(quadrant)&&q.quadrants.includes(quadrant));
       });
       card.querySelector('.score').textContent=`${ok?1:0} / 1`;
       card.querySelector('.pair-answer').classList.add('show');
-      UI.drawCircle(card.querySelector('svg'),selected,q.answers,true);
+      UI.drawCircle(card.querySelector('svg'),selected,q,true);
     });
     $('#total').textContent=`${total} / 11`;
     $('#message').textContent=total===11?'全問正解です。弧度法も単位円もばっちりです！':total>=8?'よくできています。正答の2つの終辺も確認しよう。':total>=5?'あと一歩です。符号から象限を絞ると見つけやすくなります。':'正答を見ながら、基準角と象限を一つずつ確認しよう。';
@@ -128,7 +128,7 @@
   }
   function lock(value){
     locked=value;
-    document.querySelectorAll('.option,.angle-chip').forEach(button=>button.disabled=value);
+    document.querySelectorAll('.option,.quadrant-hit').forEach(button=>button.disabled=value);
     submit.disabled=value;
     reset.textContent=value?'リセットしてもう一度':'リセット';
   }

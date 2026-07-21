@@ -8,11 +8,10 @@ window.RADIAN_QUIZ_DATA={
     {id:'c6',deg:135,answer:'3π/4',options:['2π/3','3π/4','5π/6','7π/6']}
   ],
   pairs:[
-    {id:'p1',fn:'cos',sign:'',num:'1',den:'√2',answers:[45,315],hint:'cosが正なので、第1象限と第4象限。基準角は45°です。'},
-    {id:'p2',fn:'sin',sign:'−',num:'√3',den:'2',answers:[240,300],hint:'sinが負なので、第3象限と第4象限。基準角は60°です。'},
-    {id:'p3',fn:'cos',sign:'−',num:'1',den:'2',answers:[120,240],hint:'cosが負なので、第2象限と第3象限。基準角は60°です。'},
-    {id:'p4',fn:'tan',sign:'',num:'1',den:'1',answers:[45,225],hint:'tanが正なので、第1象限と第3象限。基準角は45°です。'},
-    {id:'p5',fn:'tan',sign:'−',num:'1',den:'√3',answers:[150,330],hint:'tanが負なので、第2象限と第4象限。基準角は30°です。'}
-  ],
-  angles:[0,30,45,60,90,120,135,150,180,210,225,240,270,300,315,330]
+    {id:'p1',fn:'cos',sign:'',num:'1',den:'√2',ref:45,quadrants:[1,4],answers:[45,315],hint:'cosが正なので、第1象限と第4象限。基準角は45°です。'},
+    {id:'p2',fn:'sin',sign:'−',num:'√3',den:'2',ref:60,quadrants:[3,4],answers:[240,300],hint:'sinが負なので、第3象限と第4象限。基準角は60°です。'},
+    {id:'p3',fn:'cos',sign:'−',num:'1',den:'2',ref:60,quadrants:[2,3],answers:[120,240],hint:'cosが負なので、第2象限と第3象限。基準角は60°です。'},
+    {id:'p4',fn:'tan',sign:'',num:'1',den:'1',ref:45,quadrants:[1,3],answers:[45,225],hint:'tanが正なので、第1象限と第3象限。基準角は45°です。'},
+    {id:'p5',fn:'tan',sign:'−',num:'1',den:'√3',ref:30,quadrants:[2,4],answers:[150,330],hint:'tanが負なので、第2象限と第4象限。基準角は30°です。'}
+  ]
 };

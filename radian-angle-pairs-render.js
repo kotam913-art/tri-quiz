@@ -18,31 +18,41 @@
       <div class="answer-panel"><strong>正答</strong><span class="answer-math">${q.deg}° = ${mathMarkup(q.answer)}</span></div>
     </article>`;
   }
-  function pairCard(q,index,angles){
+  function pairCard(q,index){
+    const roman=['','Ⅰ','Ⅱ','Ⅲ','Ⅳ'];
     return `<article class="question-card pair-card" data-id="${q.id}">
       <div class="qhead"><span class="qnum">${index+1}</span><span class="score">— / 1</span></div>
       <div class="equation">${equationMarkup(q)}</div>
       <div class="pair-layout">
-        <svg class="unit-circle" viewBox="0 0 180 180" role="img" aria-label="単位円"></svg>
-        <div><p class="select-note">条件に合う角を2つ選択</p><div class="angle-grid">${angles.map(angle=>`<button class="angle-chip" data-angle="${angle}">${angle}°</button>`).join('')}</div><p class="limit-note" aria-live="polite"></p></div>
+        <p class="select-note">三角形を描く象限を2か所タップ</p>
+        <div class="circle-picker">
+          <svg class="unit-circle" viewBox="0 0 180 180" role="img" aria-label="三角形を描く単位円"></svg>
+          ${[1,2,3,4].map(quadrant=>`<button class="quadrant-hit q${quadrant}" data-quadrant="${quadrant}" aria-label="第${quadrant}象限に三角形を描く"><span>${roman[quadrant]}</span></button>`).join('')}
+        </div>
+        <p class="toggle-note">同じ象限をもう一度タップすると取り消せます。</p>
+        <p class="limit-note" aria-live="polite"></p>
       </div>
-      <div class="pair-answer"><strong>正答</strong><div class="answer-angles">${q.answers.join('°・')}°</div><p>${q.hint}</p></div>
+      <div class="pair-answer"><strong>正答</strong><div class="answer-angles">第${q.quadrants.join('象限・第')}象限</div><p>${q.hint}（${q.answers.join('°・')}°）</p></div>
     </article>`;
   }
-  function drawCircle(svg,selected,correct,graded){
+  function angleForQuadrant(reference,quadrant){
+    return quadrant===1?reference:quadrant===2?180-reference:quadrant===3?180+reference:360-reference;
+  }
+  function drawCircle(svg,selected,q,graded){
     const cx=90,cy=90,r=64;
-    const rays=(graded?correct:selected).map(angle=>{
+    const triangles=(graded?q.quadrants:selected).map(quadrant=>{
+      const angle=angleForQuadrant(q.ref,quadrant);
       const rad=angle*Math.PI/180;
       const x=cx+r*Math.cos(rad),y=cy-r*Math.sin(rad);
-      return `<line class="leg" x1="${x}" y1="${y}" x2="${x}" y2="${cy}"></line><line class="ray" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"></line><circle class="dot" cx="${x}" cy="${y}" r="3.5"></circle>`;
+      return `<polygon class="triangle" points="${cx},${cy} ${x},${y} ${x},${cy}"></polygon><line class="leg" x1="${x}" y1="${y}" x2="${x}" y2="${cy}"></line><line class="ray" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"></line><circle class="dot" cx="${x}" cy="${y}" r="3.5"></circle>`;
     }).join('');
     svg.classList.toggle('graded',graded);
-    svg.innerHTML=`<circle class="circle-line" cx="${cx}" cy="${cy}" r="${r}"></circle><line class="axis" x1="13" y1="${cy}" x2="167" y2="${cy}"></line><line class="axis" x1="${cx}" y1="13" x2="${cx}" y2="167"></line>${rays}`;
+    svg.innerHTML=`<circle class="circle-line" cx="${cx}" cy="${cy}" r="${r}"></circle><line class="axis" x1="13" y1="${cy}" x2="167" y2="${cy}"></line><line class="axis" x1="${cx}" y1="13" x2="${cx}" y2="167"></line>${triangles}`;
   }
   function render(data){
     document.querySelector('#conversion-grid').innerHTML=data.conversions.map(conversionCard).join('');
-    document.querySelector('#pair-grid').innerHTML=data.pairs.map((q,index)=>pairCard(q,index,data.angles)).join('');
-    document.querySelectorAll('.pair-card').forEach(card=>drawCircle(card.querySelector('svg'),[],[],false));
+    document.querySelector('#pair-grid').innerHTML=data.pairs.map(pairCard).join('');
+    document.querySelectorAll('.pair-card').forEach((card,index)=>drawCircle(card.querySelector('svg'),[],data.pairs[index],false));
   }
   window.RadianQuizUI={mathMarkup,drawCircle,render};
 })();
