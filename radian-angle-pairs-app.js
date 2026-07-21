@@ -2,7 +2,7 @@
   'use strict';
   const DATA=window.RADIAN_QUIZ_DATA;
   const UI=window.RadianQuizUI;
-  const KEY='tri-quiz:radian-angle-pairs-2026:v3';
+  const KEY='tri-quiz:radian-angle-pairs-2026:v4';
   const LIMIT=300;
   const $=selector=>document.querySelector(selector);
   const timer=$('#timer');
@@ -72,7 +72,7 @@
     DATA.pairs.forEach(q=>{
       const card=document.querySelector(`[data-id="${q.id}"]`);
       const note=card.querySelector('.limit-note');
-      card.querySelectorAll('.quadrant-hit').forEach(button=>button.addEventListener('click',()=>{
+      card.querySelectorAll('.quadrant-hit').forEach(button=>button.addEventListener('click',event=>{
         if(locked)return;
         const quadrant=Number(button.dataset.quadrant);
         const selected=state.pairs[q.id];
@@ -80,11 +80,12 @@
         note.textContent='';
         if(index>=0)selected.splice(index,1);
         else if(selected.length<2)selected.push(quadrant);
-        else{note.textContent='これ以上は置けません。取り消す場所をもう一度タップしよう。';return}
+        else{note.textContent='これ以上は置けません。取り消す場所をもう一度タップしよう。';if(event.detail>0)button.blur();return}
         selected.sort((a,b)=>a-b);
         save();
         updatePair(q);
         updateProgress();
+        if(event.detail>0)button.blur();
       }));
     });
   }
