@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#173b72">
   <title>弧度法・2つの角クイズ（5分）</title>
-  <link rel="stylesheet" href="radian-angle-pairs-2026.css?v=2">
+  <link rel="stylesheet" href="radian-angle-pairs-2026.css?v=3">
 </head>
 <body>
   <header class="topbar">
     <div class="titlegroup">
-      <a class="homebtn" href="index.html?v=12" target="_top">← 一覧</a>
+      <a class="homebtn" href="index.html?v=13" target="_top">← 一覧</a>
       <div><span class="eyebrow">RADIANS &amp; UNIT CIRCLE</span><h1>弧度法・2つの角クイズ</h1></div>
     </div>
     <div class="stats"><span class="pill timer" id="timer">05:00</span><span class="pill" id="progress">0 / 11</span></div>
@@ -18,27 +18,28 @@
   <main class="wrap">
     <section class="intro-card">
       <span class="intro-icon">π</span>
-      <div><strong>写真の問題をブラウザクイズにしました。</strong><p>前半は角を弧度で表し、後半は条件に合う2つの象限へ三角形を描きます。</p></div>
+      <div><strong>写真の問題をブラウザクイズにしました。</strong><p>前半は角を弧度で表し、後半は条件に合う場所を円へ直接タップします。</p></div>
     </section>
     <section class="quiz-section" aria-labelledby="conversion-title">
       <div class="section-heading"><span>PART 1</span><div><h2 id="conversion-title">次の角を弧度で表せ</h2><p>正しい弧度法の表し方を1つ選ぼう。</p></div></div>
       <div class="conversion-grid" id="conversion-grid"></div>
     </section>
     <section class="quiz-section" aria-labelledby="pair-title">
-      <div class="section-heading purple"><span>PART 2</span><div><h2 id="pair-title">三角形をどこに描く？</h2><p>単位円の象限を2か所タップ。同じ象限をもう一度タップすると取り消せます。</p></div></div>
+      <div class="section-heading purple"><span>PART 2</span><div><h2 id="pair-title">三角形をどこに描く？</h2><p>円の中をタップ。同じ場所をもう一度タップすると取り消せます。</p></div></div>
       <div class="pair-grid" id="pair-grid"></div>
     </section>
     <section class="result" id="result" aria-live="polite">
       <span class="result-label">RESULT</span><h2>採点結果</h2><div class="total" id="total">0 / 11</div><p id="message"></p>
     </section>
-    <a class="bottom-home" href="index.html?v=12" target="_top">← クイズ一覧へ戻る</a>
+    <a class="bottom-home" href="index.html?v=13" target="_top">← クイズ一覧へ戻る</a>
   </main>
   <div class="actions"><button class="submit" id="submit">提出して採点</button><button class="reset" id="reset">リセット</button></div>
   <div class="overlay" id="overlay">
-    <div class="modal"><span class="modal-mark">π</span><p class="eyebrow">5 MINUTE CHALLENGE</p><h2>弧度法と単位円に挑戦</h2><p>全11問です。後半は象限を直接タップして三角形を2つ描きます。</p><button class="start" id="start">スタート</button><a class="homebtn modal-home" href="index.html?v=12" target="_top">← クイズ一覧へ戻る</a></div>
+    <div class="modal"><span class="modal-mark">π</span><p class="eyebrow">5 MINUTE CHALLENGE</p><h2>弧度法と単位円に挑戦</h2><p>全11問です。後半は円の中を直接タップして三角形を描きます。</p><button class="start" id="start">スタート</button><a class="homebtn modal-home" href="index.html?v=13" target="_top">← クイズ一覧へ戻る</a></div>
   </div>
-  <script src="radian-angle-pairs-data.js?v=2"></script>
-  <script src="radian-angle-pairs-render.js?v=2"></script>
-  <script src="radian-angle-pairs-app.js?v=2"></script>
+  <script src="radian-angle-pairs-data.js?v=3"></script>
+  <script src="radian-angle-pairs-render.js?v=3"></script>
+  <script src="radian-angle-pairs-app.js?v=3"></script>
 </body>
 </html>
+

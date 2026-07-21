@@ -2,7 +2,7 @@
   'use strict';
   const DATA=window.RADIAN_QUIZ_DATA;
   const UI=window.RadianQuizUI;
-  const KEY='tri-quiz:radian-angle-pairs-2026:v2';
+  const KEY='tri-quiz:radian-angle-pairs-2026:v3';
   const LIMIT=300;
   const $=selector=>document.querySelector(selector);
   const timer=$('#timer');
@@ -80,7 +80,7 @@
         note.textContent='';
         if(index>=0)selected.splice(index,1);
         else if(selected.length<2)selected.push(quadrant);
-        else{note.textContent='三角形は2つまでです。取り消す象限をもう一度タップしよう。';return}
+        else{note.textContent='これ以上は置けません。取り消す場所をもう一度タップしよう。';return}
         selected.sort((a,b)=>a-b);
         save();
         updatePair(q);
@@ -123,7 +123,7 @@
       UI.drawCircle(card.querySelector('svg'),selected,q,true);
     });
     $('#total').textContent=`${total} / 11`;
-    $('#message').textContent=total===11?'全問正解です。弧度法も単位円もばっちりです！':total>=8?'よくできています。正答の2つの終辺も確認しよう。':total>=5?'あと一歩です。符号から象限を絞ると見つけやすくなります。':'正答を見ながら、基準角と象限を一つずつ確認しよう。';
+    $('#message').textContent=total===11?'全問正解です。弧度法も単位円もばっちりです！':total>=8?'よくできています。正答の三角形の位置も確認しよう。':total>=5?'あと一歩です。符号から位置を絞ると見つけやすくなります。':'正答を見ながら、三角形の位置を確認しよう。';
     result.classList.add('show');
   }
   function lock(value){
@@ -201,3 +201,4 @@
     submit.disabled=true;
   }
 })();
+

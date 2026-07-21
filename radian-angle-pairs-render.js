@@ -19,20 +19,20 @@
     </article>`;
   }
   function pairCard(q,index){
-    const roman=['','Ⅰ','Ⅱ','Ⅲ','Ⅳ'];
+    const regionNames=['','右上','左上','左下','右下'];
     return `<article class="question-card pair-card" data-id="${q.id}">
       <div class="qhead"><span class="qnum">${index+1}</span><span class="score">— / 1</span></div>
       <div class="equation">${equationMarkup(q)}</div>
       <div class="pair-layout">
-        <p class="select-note">三角形を描く象限を2か所タップ</p>
+        <p class="select-note">円の中で三角形を描きたい場所をタップ</p>
         <div class="circle-picker">
-          <svg class="unit-circle" viewBox="0 0 180 180" role="img" aria-label="三角形を描く単位円"></svg>
-          ${[1,2,3,4].map(quadrant=>`<button class="quadrant-hit q${quadrant}" data-quadrant="${quadrant}" aria-label="第${quadrant}象限に三角形を描く"><span>${roman[quadrant]}</span></button>`).join('')}
+          <svg class="unit-circle" viewBox="0 0 180 180" role="img" aria-label="三角形を描く円"></svg>
+          ${[1,2,3,4].map(quadrant=>`<button class="quadrant-hit q${quadrant}" data-quadrant="${quadrant}" aria-label="円の${regionNames[quadrant]}に三角形を描く"></button>`).join('')}
         </div>
-        <p class="toggle-note">同じ象限をもう一度タップすると取り消せます。</p>
+        <p class="toggle-note">同じ場所をもう一度タップすると取り消せます。</p>
         <p class="limit-note" aria-live="polite"></p>
       </div>
-      <div class="pair-answer"><strong>正答</strong><div class="answer-angles">第${q.quadrants.join('象限・第')}象限</div><p>${q.hint}（${q.answers.join('°・')}°）</p></div>
+      <div class="pair-answer"><strong>正答</strong><div class="answer-angles">赤い三角形の位置を確認しよう</div><p>符号を見て、条件に合う場所を確かめよう。</p></div>
     </article>`;
   }
   function angleForQuadrant(reference,quadrant){
@@ -56,3 +56,4 @@
   }
   window.RadianQuizUI={mathMarkup,drawCircle,render};
 })();
+
