@@ -32,22 +32,28 @@
         <p class="toggle-note">同じ場所をもう一度タップすると取り消せます。</p>
         <p class="limit-note" aria-live="polite"></p>
       </div>
-      <div class="pair-answer"><strong>正答</strong><div class="answer-angles">赤い三角形の位置を確認しよう</div><p>符号を見て、条件に合う場所を確かめよう。</p></div>
+      <div class="pair-answer"><strong>答え合わせ</strong><div class="answer-legend" aria-label="あなたの答えは青、正答は赤"><span><i class="legend-choice"></i>あなたの答え</span><span><i class="legend-correct"></i>正答</span></div><p>青い三角形と赤い三角形の位置を比べよう。</p></div>
     </article>`;
   }
   function angleForQuadrant(reference,quadrant){
     return quadrant===1?reference:quadrant===2?180-reference:quadrant===3?180+reference:360-reference;
   }
-  function drawCircle(svg,selected,q,graded){
+  function triangleMarkup(quadrants,q,kind){
     const cx=90,cy=90,r=64;
-    const triangles=(graded?q.quadrants:selected).map(quadrant=>{
+    return quadrants.map(quadrant=>{
       const angle=angleForQuadrant(q.ref,quadrant);
       const rad=angle*Math.PI/180;
       const x=cx+r*Math.cos(rad),y=cy-r*Math.sin(rad);
-      return `<polygon class="triangle" points="${cx},${cy} ${x},${y} ${x},${cy}"></polygon><line class="leg" x1="${x}" y1="${y}" x2="${x}" y2="${cy}"></line><line class="ray" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"></line><circle class="dot" cx="${x}" cy="${y}" r="3.5"></circle>`;
+      return `<polygon class="${kind}-triangle" points="${cx},${cy} ${x},${y} ${x},${cy}"></polygon><line class="${kind}-leg" x1="${x}" y1="${y}" x2="${x}" y2="${cy}"></line><line class="${kind}-ray" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"></line><circle class="${kind}-dot" cx="${x}" cy="${y}" r="3.5"></circle>`;
     }).join('');
+  }
+  function drawCircle(svg,selected,q,graded){
+    const cx=90,cy=90,r=64;
+    const chosen=triangleMarkup(selected,q,'chosen');
+    const correct=graded?triangleMarkup(q.quadrants,q,'correct'):'';
     svg.classList.toggle('graded',graded);
-    svg.innerHTML=`<circle class="circle-line" cx="${cx}" cy="${cy}" r="${r}"></circle><line class="axis" x1="13" y1="${cy}" x2="167" y2="${cy}"></line><line class="axis" x1="${cx}" y1="13" x2="${cx}" y2="167"></line>${triangles}`;
+    svg.setAttribute('aria-label',graded?'青があなたの答え、赤が正答の円':'三角形を描く円');
+    svg.innerHTML=`<circle class="circle-line" cx="${cx}" cy="${cy}" r="${r}"></circle><line class="axis" x1="13" y1="${cy}" x2="167" y2="${cy}"></line><line class="axis" x1="${cx}" y1="13" x2="${cx}" y2="167"></line>${chosen}${correct}`;
   }
   function render(data){
     document.querySelector('#conversion-grid').innerHTML=data.conversions.map(conversionCard).join('');
@@ -56,4 +62,3 @@
   }
   window.RadianQuizUI={mathMarkup,drawCircle,render};
 })();
-

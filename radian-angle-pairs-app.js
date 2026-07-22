@@ -2,7 +2,7 @@
   'use strict';
   const DATA=window.RADIAN_QUIZ_DATA;
   const UI=window.RadianQuizUI;
-  const KEY='tri-quiz:radian-angle-pairs-2026:v4';
+  const KEY='tri-quiz:radian-angle-pairs-2026:v5';
   const LIMIT=300;
   const $=selector=>document.querySelector(selector);
   const timer=$('#timer');
@@ -202,4 +202,3 @@
     submit.disabled=true;
   }
 })();
-
