@@ -1,5 +1,5 @@
 'use strict';
-const Q=window.QUIZ_DATA,KEY='tri-quiz:trig-function-values-2026:v6',LIMIT=300,$=s=>document.querySelector(s);
+const Q=window.QUIZ_DATA,KEY=window.TRIG_QUIZ_KEY||'tri-quiz:trig-function-values-2026:v7',LIMIT=300,$=s=>document.querySelector(s);
 const grid=$('#grid'),timer=$('#timer'),progress=$('#progress'),overlay=$('#overlay'),submit=$('#submit'),reset=$('#reset'),result=$('#result');
 let state={},startAt=0,timerId=null,locked=false,active=null;
 const fs=id=>state[id]||(state[id]={});
