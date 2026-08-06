@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173b72">
+  <meta name="description" content="2022〜2026年度の大学入試数学を、大学・分野・難度から探せる出典データベースです。">
+  <title>大学入試数学 データベース</title>
+  <link rel="stylesheet" href="admission-math-database.css?v=1">
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <a class="back-link" href="index.html?v=12" target="_top">← クイズ一覧へ戻る</a>
+      <div class="hero-copy">
+        <span class="eyebrow">UNIVERSITY ENTRANCE MATHEMATICS</span>
+        <h1>大学入試数学<br class="mobile-break">データベース</h1>
+        <p>大学・年度・分野・難度から、授業やプリントに使う問題の出典を探せます。</p>
+      </div>
+      <dl class="summary" aria-label="収録データ数">
+        <div><dt>公式出典</dt><dd id="sourceStat">55</dd></div>
+        <div><dt>試験区分</dt><dd id="examStat">67</dd></div>
+        <div><dt>大問データ</dt><dd id="problemStat">117</dd></div>
+        <div><dt>分野マスタ</dt><dd id="topicStat">39</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <main id="main" class="page-shell">
+    <section class="notice" aria-labelledby="noticeTitle">
+      <div class="notice-icon" aria-hidden="true">i</div>
+      <div>
+        <h2 id="noticeTitle">問題本文は掲載していません</h2>
+        <p>著作権に配慮し、大学・年度・分野・必要技能・難度と公式出典へのリンクだけを収録しています。問題は各出典元の利用条件に従って確認してください。</p>
+      </div>
+    </section>
+
+    <nav class="view-tabs" aria-label="データの種類">
+      <button class="view-tab active" type="button" data-mode="problems" aria-pressed="true">
+        <span>大問を探す</span><small>117件</small>
+      </button>
+      <button class="view-tab" type="button" data-mode="exams" aria-pressed="false">
+        <span>試験区分</span><small>67件</small>
+      </button>
+      <button class="view-tab" type="button" data-mode="sources" aria-pressed="false">
+        <span>公式出典</span><small>55件</small>
+      </button>
+      <button class="view-tab print-tab" type="button" data-mode="prints" aria-pressed="false">
+        <span>プリント登録</span><small id="draftCountBadge">0問</small>
+      </button>
+    </nav>
+
+    <section id="browseView" aria-labelledby="browseHeading">
+      <h2 id="browseHeading" class="sr-only">大問を探す</h2>
+
+      <details class="filter-card" open>
+        <summary>
+          <span>検索・絞り込み</span>
+          <span id="filterSummary">条件なし</span>
+        </summary>
+        <form id="filterForm" class="filters">
+          <label class="field keyword-field">
+            <span>キーワード</span>
+            <input id="keywordFilter" type="search" inputmode="search" placeholder="大学名、分野、必要技能など">
+          </label>
+          <label class="field">
+            <span>大学群</span>
+            <select id="groupFilter"><option value="">すべて</option></select>
+          </label>
+          <label class="field">
+            <span>大学</span>
+            <select id="universityFilter"><option value="">すべて</option></select>
+          </label>
+          <label class="field">
+            <span>年度</span>
+            <select id="yearFilter"><option value="">すべて</option></select>
+          </label>
+          <label class="field track-field">
+            <span>数学区分</span>
+            <select id="trackFilter"><option value="">すべて</option></select>
+          </label>
+          <label class="field problem-only">
+            <span>主分野</span>
+            <select id="topicFilter"><option value="">すべて</option></select>
+          </label>
+          <label class="field problem-only">
+            <span>難度</span>
+            <select id="difficultyFilter">
+              <option value="">すべて</option>
+              <option value="1">1　教科書確認</option>
+              <option value="2">2　入試基礎</option>
+              <option value="3">3　入試標準</option>
+              <option value="4">4　入試発展</option>
+              <option value="5">5　難関</option>
+            </select>
+          </label>
+          <div class="filter-actions">
+            <button id="resetFilters" class="secondary-button" type="button">条件をリセット</button>
+          </div>
+        </form>
+      </details>
+
+      <section id="recommendationPanel" class="recommendation-panel" hidden aria-labelledby="recommendationHeading">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">RECOMMENDATION</span>
+            <h2 id="recommendationHeading">類題の候補</h2>
+            <p id="recommendationReason">主分野の一致と難度差から並べています。</p>
+          </div>
+          <button id="closeRecommendations" class="text-button" type="button">閉じる</button>
+        </div>
+        <div id="recommendationList" class="recommendation-list"></div>
+      </section>
+
+      <div class="results-toolbar">
+        <div>
+          <span class="section-kicker" id="resultKicker">PROBLEMS</span>
+          <h2><span id="resultCount">0</span>件見つかりました</h2>
+          <p id="resultDescription">大問ごとの分野・必要技能・難度を表示します。</p>
+        </div>
+        <label class="sort-field">
+          <span>並び順</span>
+          <select id="sortSelect">
+            <option value="year-desc">新しい年度から</option>
+            <option value="year-asc">古い年度から</option>
+            <option value="difficulty-asc">難度が低い順</option>
+            <option value="difficulty-desc">難度が高い順</option>
+            <option value="university">大学名順</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="loadingState" class="state-card" role="status">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>データを読み込んでいます。</p>
+      </div>
+      <div id="errorState" class="state-card error-state" hidden role="alert">
+        <h2>データを読み込めませんでした</h2>
+        <p>通信状況を確認して、ページをもう一度開いてください。</p>
+        <button id="retryLoad" class="primary-button" type="button">もう一度読み込む</button>
+      </div>
+      <div id="emptyState" class="state-card" hidden>
+        <h2>条件に合うデータがありません</h2>
+        <p>絞り込みを減らすか、公式出典タブで大学・年度の収録状況を確認してください。</p>
+        <button id="emptyReset" class="secondary-button" type="button">条件をリセット</button>
+      </div>
+
+      <div id="resultList" class="result-list" aria-live="polite"></div>
+      <button id="loadMore" class="load-more" type="button" hidden>続きを表示</button>
+    </section>
+
+    <section id="printView" class="print-view" hidden aria-labelledby="printHeading">
+      <div class="print-intro">
+        <span class="section-kicker">ON THIS IPAD</span>
+        <h2 id="printHeading">プリント候補を登録</h2>
+        <p>大問カードの「プリントに追加」から選んだ問題を、この端末に保存します。問題本文ではなく、出典と分類の一覧を登録します。</p>
+      </div>
+
+      <div class="print-layout">
+        <section class="print-editor" aria-labelledby="editorHeading">
+          <div class="editor-head">
+            <div>
+              <span class="editor-label">Print_ID</span>
+              <strong id="printId">—</strong>
+            </div>
+            <span id="draftCount" class="count-pill">0問</span>
+          </div>
+          <h3 id="editorHeading" class="sr-only">プリント情報</h3>
+          <div class="editor-fields">
+            <label class="field">
+              <span>プリント名</span>
+              <input id="printTitle" type="text" maxlength="80" placeholder="例：三角関数 入試演習1">
+            </label>
+            <label class="field">
+              <span>Student_ID（任意）</span>
+              <input id="studentId" type="text" maxlength="40" autocapitalize="characters" placeholder="例：2A-15">
+            </label>
+            <label class="field full-field">
+              <span>メモ（任意）</span>
+              <textarea id="printNote" rows="3" maxlength="300" placeholder="授業日やねらいなど"></textarea>
+            </label>
+          </div>
+
+          <div class="print-actions">
+            <button id="savePrint" class="primary-button" type="button">この端末に登録</button>
+            <button id="newPrint" class="secondary-button" type="button">新しいプリント</button>
+            <button id="suggestForPrint" class="secondary-button" type="button">選択問題から類題を提案</button>
+            <button id="printDraft" class="secondary-button" type="button">印刷・PDF</button>
+            <button id="clearDraft" class="danger-text-button" type="button">選択をすべて外す</button>
+          </div>
+
+          <div class="device-note">
+            <strong>このiPadだけに保存されます</strong>
+            <p>サーバーには送信しません。別の端末や別のブラウザには自動で引き継がれません。</p>
+          </div>
+
+          <div class="selected-heading">
+            <h3>選択中の大問</h3>
+            <button id="backToProblems" class="text-button" type="button">大問を追加する</button>
+          </div>
+          <div id="selectedProblems" class="selected-problems"></div>
+
+          <section id="printRecommendations" class="print-recommendations" hidden aria-labelledby="printRecommendationsHeading">
+            <div class="selected-heading">
+              <div>
+                <span class="section-kicker">RECOMMENDED</span>
+                <h3 id="printRecommendationsHeading">追加候補</h3>
+              </div>
+              <button id="closePrintRecommendations" class="text-button" type="button">閉じる</button>
+            </div>
+            <p>主分野の一致と選択問題との難度差が小さい順です。</p>
+            <div id="printRecommendationList" class="recommendation-list"></div>
+          </section>
+        </section>
+
+        <aside class="saved-prints" aria-labelledby="savedPrintsHeading">
+          <div class="selected-heading">
+            <h3 id="savedPrintsHeading">登録済み</h3>
+            <span id="savedPrintCount">0件</span>
+          </div>
+          <div id="savedPrintList"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="data-note" aria-labelledby="dataNoteHeading">
+      <h2 id="dataNoteHeading">データの見方</h2>
+      <div>
+        <p><strong>難度</strong> 1〜5の目安です。小数値は、段階の中間を表します。</p>
+        <p><strong>信頼度</strong> 分類・難度判断の根拠の確かさを、高・中・低で表示します。</p>
+        <p><strong>公開状態</strong> 公式ページでの公開状況です。年度によって掲載期間や閲覧条件が異なります。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="index.html?v=12" target="_top">← クイズ一覧へ戻る</a>
+    <p>大学入試数学 データベース　2022–2026</p>
+  </footer>
+
+  <div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
+
+  <script defer src="admission-math-db-model.js?v=1"></script>
+  <script defer src="admission-math-db-store.js?v=1"></script>
+  <script defer src="admission-math-db-app.js?v=1"></script>
+</body>
+</html>
