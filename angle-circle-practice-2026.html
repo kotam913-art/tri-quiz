@@ -54,7 +54,7 @@ function patchHtml(html){
   out=out.replace('<article class="quad" data-q="2">','<article class="quad" data-q="2" id="quadrant-2">').replace('<article class="quad" data-q="3">','<article class="quad" data-q="3" id="quadrant-3">').replace('<article class="quad" data-q="4">','<article class="quad" data-q="4" id="quadrant-4">');
   out=out.replace(/<label><input class="answer deg" data-answer="([^"]+)"([^>]*)><span class="mark"><\/span><\/label>/g,(m,a,rest)=>'<label class="degree-answer"><input class="answer deg" data-answer="'+a+'"'+rest+'><span class="mark"></span>'+degreeAnswerMarkup(a)+'</label>');
   out=out.replace(/<label><input class="answer rad" data-answer="([^"]+)"[^>]*><span class="mark"><\/span><\/label>/g,(m,a)=>{const f=FRACTIONS[a];return f?fracMarkup(f[0],f[1]):m});
-  out=out.replace('<a class="back" href="index.html">← クイズ一覧へ戻る</a>','<a class="back" href="index.html?v=17" target="_top">← クイズ一覧へ戻る</a>');
+out=out.replace('<a class="back" href="index.html">← クイズ一覧へ戻る</a>','<a class="back" href="quizzes.html?v=1" target="_top">← クイズ一覧へ戻る</a>');
   out=out.replace('<div class="keypad"><button class="key" type="button" data-insert="π">π</button><button class="key" type="button" data-insert="/">／</button></div>','');
   out=out.replace('<strong>120°・135°・150°を作図</strong><span>円周をタップ</span>','<strong>角度の線</strong><span>表示済み</span>');
   out=out.replace('<strong>210°・225°・240°を作図</strong><span>円周をタップ</span>','<strong>角度の線</strong><span>表示済み</span>');
