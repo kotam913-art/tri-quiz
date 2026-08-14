@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#173b72">
   <title>高校2年生用　クイズ一覧</title>
-  <link rel="stylesheet" href="index.css?v=12">
+  <link rel="stylesheet" href="index.css?v=13">
 </head>
 <body>
   <header class="hero">
@@ -35,7 +35,17 @@
         <div class="tags"><span class="tag">弧度法</span><span class="tag">単位円</span><span class="tag">5分</span></div><span class="go">クイズを始める →</span>
       </a>
     </nav>
+    <section id="generated-section" class="generated-section" hidden aria-labelledby="generated-heading">
+      <div class="section-heading">
+        <span class="eyebrow dark">PRINT WORKSHEET</span>
+        <h2 id="generated-heading">プリントから作った類題</h2>
+        <p>先生が確認して追加した固定問題です。</p>
+      </div>
+      <nav id="generated-grid" class="grid" aria-label="プリントから作った類題一覧"></nav>
+    </section>
+    <p id="generated-error" class="generated-error" hidden>類題一覧を読み込めませんでした。少し時間を置いて再読み込みしてください。</p>
   </main>
   <footer>高校2年生用　数学クイズ</footer>
+  <script src="generated-quizzes.js?v=1" defer></script>
 </body>
 </html>
