@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "name": "admission_math_problem_features",
+  "purpose": "問題本文を保存せずに、構造・解法・難易度が近い入試問題を照合するための特徴量",
+  "derivation_policy": {
+    "allowed_sources": [
+      "primary_topic",
+      "secondary_topics",
+      "course",
+      "math_track",
+      "skills_summary",
+      "answer_format",
+      "difficulty_level",
+      "difficulty_confidence",
+      "source_evidence"
+    ],
+    "must_not_infer": [
+      "保存されていない問題文の具体的な式",
+      "保存されていない数値条件",
+      "保存されていない図の配置",
+      "根拠のない誘導文"
+    ]
+  },
+  "fields": {
+    "topic_ids": "taxonomy.jsonに対応する候補ID。精度を優先して最大2件",
+    "category": "照合用の大分類",
+    "concepts": "解答に必要と推定できる概念",
+    "solution_steps": "解法の抽象的な手順",
+    "representations": "数式・グラフ・図・表などの表現形式",
+    "response_mode": "選択・数値・記述・論証などの解答形式",
+    "structure_flags": "複合問題、場合分け、媒介文字、図表、論証の有無",
+    "difficulty_profile": "知識幅・方針判断・論理深度・計算量・時間圧力の5成分",
+    "common_mistakes": "同型問題で起きやすい誤り",
+    "similarity_keywords": "高速照合用キーワード",
+    "archetype": "問題の抽象構造を表す短い識別子",
+    "confidence": "特徴生成の信頼度・根拠・制約"
+  }
+}
