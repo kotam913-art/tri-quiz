@@ -2,9 +2,15 @@
   "schema_version": 1,
   "generated_at": "2026-08-14",
   "purpose": "ChatGPTプロジェクト内で自作プリントの近似過去問を高速検索するための統合索引",
-  "usage_note": "問題本文は保存していない。primary_topic、skills_summary、difficulty_level等で候補を選び、source_urlを出典として示す。",
+  "usage_note": "問題本文は保存していない。problem_featuresのtopic_ids、concepts、solution_steps、structure_flags、difficulty_profile等で候補を選び、source_urlを出典として示す。",
+  "feature_version": "metadata-rule-v1",
   "counts": {
     "total_problems": 117,
+    "feature_enriched": 117,
+    "feature_confidence": {
+      "low": 19,
+      "medium": 98
+    },
     "by_group": {
       "日東駒専": 72,
       "MARCH": 40,
@@ -352,6 +358,44 @@
       }
     ]
   },
+  "feature_schema": {
+    "schema_version": 1,
+    "name": "admission_math_problem_features",
+    "purpose": "問題本文を保存せずに、構造・解法・難易度が近い入試問題を照合するための特徴量",
+    "derivation_policy": {
+      "allowed_sources": [
+        "primary_topic",
+        "secondary_topics",
+        "course",
+        "math_track",
+        "skills_summary",
+        "answer_format",
+        "difficulty_level",
+        "difficulty_confidence",
+        "source_evidence"
+      ],
+      "must_not_infer": [
+        "保存されていない問題文の具体的な式",
+        "保存されていない数値条件",
+        "保存されていない図の配置",
+        "根拠のない誘導文"
+      ]
+    },
+    "fields": {
+      "topic_ids": "taxonomy.jsonに対応する候補ID。精度を優先して最大2件",
+      "category": "照合用の大分類",
+      "concepts": "解答に必要と推定できる概念",
+      "solution_steps": "解法の抽象的な手順",
+      "representations": "数式・グラフ・図・表などの表現形式",
+      "response_mode": "選択・数値・記述・論証などの解答形式",
+      "structure_flags": "複合問題、場合分け、媒介文字、図表、論証の有無",
+      "difficulty_profile": "知識幅・方針判断・論理深度・計算量・時間圧力の5成分",
+      "common_mistakes": "同型問題で起きやすい誤り",
+      "similarity_keywords": "高速照合用キーワード",
+      "archetype": "問題の抽象構造を表す短い識別子",
+      "confidence": "特徴生成の信頼度・根拠・制約"
+    }
+  },
   "indexes": {
     "by_group": {
       "日東駒専": [
@@ -563,312 +607,66 @@
         "agu-2026-all-0207-sci-socialb-math-v",
         "agu-2026-all-0207-humanities-math-i",
         "agu-2026-all-0207-humanities-math-ii",
-        "agu-2026-all-0207-humanities-math-iii",
-        "agu-2026-all-0207-humanities-math-iv",
-        "agu-2026-individual-0210-science-a-math-1",
-        "agu-2026-individual-0210-science-a-math-2",
-        "agu-2026-individual-0210-science-a-math-3",
-        "agu-2026-individual-0210-science-a-math-4",
-        "agu-2026-individual-0210-science-a-math-5",
-        "agu-2026-individual-0211-science-b-math-1",
-        "agu-2026-individual-0211-science-b-math-2",
-        "agu-2026-individual-0211-science-b-math-3",
-        "agu-2026-individual-0211-science-b-math-4",
-        "agu-2026-individual-0211-science-b-math-5"
-      ],
-      "立教大学": [
-        "rikkyo-2026-0206-science-mathdept-i",
-        "rikkyo-2026-0206-science-mathdept-ii",
-        "rikkyo-2026-0206-science-mathdept-iii",
-        "rikkyo-2026-0206-science-mathdept-iv",
-        "rikkyo-2026-0209-science-mathdept-i",
-        "rikkyo-2026-0209-science-mathdept-ii",
-        "rikkyo-2026-0209-science-mathdept-iii",
-        "rikkyo-2026-0209-science-mathdept-iv"
-      ],
-      "中央大学": [
-        "chuo-2026-0208-science-common-test-i",
-        "chuo-2026-0208-science-common-test-ii",
-        "chuo-2026-0208-science-common-test-iii",
-        "chuo-2026-0209-five-faculty-i",
-        "chuo-2026-0209-five-faculty-ii",
-        "chuo-2026-0209-five-faculty-iii",
-        "chuo-2026-0209-five-faculty-iv",
-        "chuo-2026-0212-law-i",
-        "chuo-2026-0212-law-ii",
-        "chuo-2026-0212-law-iii",
-        "chuo-2026-0214-economics-1-i",
-        "chuo-2026-0214-economics-1-ii",
-        "chuo-2026-0214-economics-1-iii"
-      ],
-      "早稲田大学": [
-        "waseda-2026-science-q1",
-        "waseda-2026-science-q2",
-        "waseda-2026-science-q3",
-        "waseda-2026-science-q4",
-        "waseda-2026-science-q5"
-      ]
-    },
-    "by_course": {
-      "複…76905 tokens truncated…ic": "数列",
-      "secondary_topics": [
-        "数列の和"
-      ],
-      "skills_summary": "数列の規則性と和に関する基本事項を理解し、正確に計算する力。",
-      "answer_format": "不明（公式出題意図に形式記載なし）",
-      "difficulty_level": 3,
-      "difficulty_label": "標準",
-      "difficulty_basis": "公式出題意図からの暫定評価",
-      "difficulty_confidence": "低",
-      "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/exam/answer_example/2026/i/8.pdf",
-      "source_evidence": "公式PDFは数列とその和に関する理解度と計算力を測るとしている。",
-      "rights_status": "secondary_use_subject_to_policy_and_reporting",
-      "problem_text_stored": false,
-      "verified_at": "2026-08-06",
-      "search_text": "中央大学 2026 法・経済・商・文・総合政策学部(5学部共通選抜) 数学 数学B 数列 数列の和 数列の規則性と和に関する基本事項を理解し、正確に計算する力。 標準"
-    },
-    {
-      "problem_id": "chuo-2026-0209-five-faculty-iv",
-      "exam_id": "chuo-2026-0209-five-faculty",
-      "group": "MARCH",
-      "university": "中央大学",
-      "year": 2026,
-      "exam_date": "2026-02-09",
-      "faculty_scope": "法・経済・商・文・総合政策学部（5学部共通選抜）",
-      "math_track": "数学",
-      "question_no": "IV",
-      "course": "数学II",
-      "primary_topic": "三次関数の微分・積分",
-      "secondary_topics": [
-        "方程式の解の個数",
-        "グラフと直線",
-        "面積"
-      ],
-      "skills_summary": "方程式の解の個数を検討し、三次関数と直線で囲まれる面積までを微積分で処理する力。",
-      "answer_format": "不明（公式出題意図に形式記載なし）",
-      "difficulty_level": 3.5,
-      "difficulty_label": "標準〜やや難",
-      "difficulty_basis": "公式出題意図からの暫定評価",
-      "difficulty_confidence": "低",
-      "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/exam/answer_example/2026/i/8.pdf",
-      "source_evidence": "公式PDFは解の個数と、三次関数のグラフと直線で囲まれる面積を通じ微積分の理解度を測るとしている。",
-      "rights_status": "secondary_use_subject_to_policy_and_reporting",
-      "problem_text_stored": false,
-      "verified_at": "2026-08-06",
-      "search_text": "中央大学 2026 法・経済・商・文・総合政策学部(5学部共通選抜) 数学 数学II 三次関数の微分・積分 方程式の解の個数 グラフと直線 面積 方程式の解の個数を検討し、三次関数と直線で囲まれる面積までを微積分で処理する力。 標準〜やや難"
-    },
-    {
-      "problem_id": "chuo-2026-0212-law-i",
-      "exam_id": "chuo-2026-0212-law",
-      "group": "MARCH",
-      "university": "中央大学",
-      "year": 2026,
-      "exam_date": "2026-02-12",
-      "faculty_scope": "法学部",
-      "math_track": "数学",
-      "question_no": "I",
-      "course": "数学I・数学II・数学A",
-      "primary_topic": "基礎計算",
-      "secondary_topics": [
-        "三角関数",
-        "対数関数",
-        "確率",
-        "二次関数"
-      ],
-      "skills_summary": "複数の基礎分野を切り替え、必要に応じて二次関数の知識も援用して正確に計算する力。",
-      "answer_format": "不明（公式出題意図に形式記載なし）",
-      "difficulty_level": 3,
-      "difficulty_label": "標準",
-      "difficulty_basis": "公式出題意図からの暫定評価",
-      "difficulty_confidence": "低",
-      "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/exam/answer_example/2026/i/29.pdf",
-      "source_evidence": "公式PDFは三角関数、対数関数、確率の基礎計算と、二次関数の援用を求める問題を含むとしている。",
-      "rights_status": "secondary_use_subject_to_policy_and_reporting",
-      "problem_text_stored": false,
-      "verified_at": "2026-08-06",
-      "search_text": "中央大学 2026 法学部 数学 数学I・数学II・数学A 基礎計算 三角関数 対数関数 確率 二次関数 複数の基礎分野を切り替え、必要に応じて二次関数の知識も援用して正確に計算する力。 標準"
-    },
-    {
-      "problem_id": "chuo-2026-0212-law-ii",
-      "exam_id": "chuo-2026-0212-law",
-      "group": "MARCH",
-      "university": "中央大学",
-      "year": 2026,
-      "exam_date": "2026-02-12",
-      "faculty_scope": "法学部",
-      "math_track": "数学",
-      "question_no": "II",
-      "course": "数学II",
-      "primary_topic": "整式の除法",
-      "secondary_topics": [
-        "高次単項式",
-        "二次式",
-        "余り",
-        "推測と実証"
-      ],
-      "skills_summary": "高次式を二次式で割った余りを推測し、計算と論理で実証する力。",
-      "answer_format": "不明（公式出題意図に形式記載なし）",
-      "difficulty_level": 3,
-      "difficulty_label": "標準",
-      "difficulty_basis": "公式出題意図からの暫定評価",
-      "difficulty_confidence": "低",
-      "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/exam/answer_example/2026/i/29.pdf",
-      "source_evidence": "公式PDFは整式の除法の基礎理解と、余りを推測・実証する計算力と論理力を測るとしている。",
-      "rights_status": "secondary_use_subject_to_policy_and_reporting",
-      "problem_text_stored": false,
-      "verified_at": "2026-08-06",
-      "search_text": "中央大学 2026 法学部 数学 数学II 整式の除法 高次単項式 二次式 余り 推測と実証 高次式を二次式で割った余りを推測し、計算と論理で実証する力。 標準"
-    },
-    {
-      "problem_id": "chuo-2026-0212-law-iii",
-      "exam_id": "chuo-2026-0212-law",
-      "group": "MARCH",
-      "university": "中央大学",
-      "year": 2026,
-      "exam_date": "2026-02-12",
-      "faculty_scope": "法学部",
-      "math_track": "数学",
-      "question_no": "III",
-      "course": "数学II",
-      "primary_topic": "多項式の微分",
-      "secondary_topics": [
-        "三次関数",
-        "四次関数",
-        "接点",
-        "積の展開",
-        "二次方程式・不等式"
-      ],
-      "skills_summary": "三次・四次関数を微分し、接点の図形的関係を捉え、関連する代数計算を正確に行う力。",
-      "answer_format": "不明（公式出題意図に形式記載なし）",
-      "difficulty_level": 3.5,
-      "difficulty_label": "標準〜やや難",
-      "difficulty_basis": "公式出題意図からの暫定評価",
-      "difficulty_confidence": "低",
-      "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/exam/answer_example/2026/i/29.pdf",
-      "source_evidence": "公式PDFは三次・四次関数の微分、接点の図形的把握、展開や二次方程式・不等式の計算力を測るとしている。",
-      "rights_status": "secondary_use_subject_to_policy_and_reporting",
-      "problem_text_stored": false,
-      "verified_at": "2026-08-06",
-      "search_text": "中央大学 2026 法学部 数学 数学II 多項式の微分 三次関数 四次関数 接点 積の展開 二次方程式・不等式 三次・四次関数を微分し、接点の図形的関係を捉え、関連する代数計算を正確に行う力。 標準〜やや難"
-    },
-    {
-      "problem_id": "chuo-2026-0214-economics-1-i",
-      "exam_id": "chuo-2026-0214-economics-1",
-      "group": "MARCH",
-      "university": "中央大学",
-      "year": 2026,
-      "exam_date": "2026-02-14",
-      "faculty_scope": "経済学部・学部別選抜I",
-      "math_track": "数学",
-      "question_no": "I",
-      "course": "数学I・数学II・数学A・数学B・数学C",
-      "primary_topic": "出題範囲横断の基本問題",
-      "secondary_topics": [
-        "6つの基本問題"
-      ],
-      "skills_summary": "出題範囲の複数分野から出される基本問題に、知識を切り替えて的確に答える力。",
-      "answer_format": "不明（公式出題意図に形式記載なし）",
-      "difficulty_level": 3,
-      "difficulty_label": "標準",
-      "difficulty_basis": "公式出題意図からの暫定評価",
-      "difficulty_confidence": "低",
-      "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/exam/answer_example/2026/i/41.pdf",
-      "source_evidence": "公式PDFは出題範囲から選んだ6つの基本問題に的確に答えられるかを問うとしている。",
-      "rights_status": "secondary_use_subject_to_policy_and_reporting",
-      "problem_text_stored": false,
-      "verified_at": "2026-08-06",
-      "search_text": "中央大学 2026 経済学部・学部別選抜I 数学 数学I・数学II・数学A・数学B・数学C 出題範囲横断の基本問題 6つの基本問題 出題範囲の複数分野から出される基本問題に、知識を切り替えて的確に答える力。 標準"
-    },
-    {
-      "problem_id": "chuo-2026-0214-economics-1-ii",
-      "exam_id": "chuo-2026-0214-economics-1",
-      "group": "MARCH",
-      "university": "中央大学",
-      "year": 2026,
-      "exam_date": "2026-02-14",
-      "faculty_scope": "経済学部・学部別選抜I",
-      "math_track": "数学",
-      "question_no": "II",
-      "course": "数学II・数学C",
-      "primary_topic": "直線とベクトル",
-      "secondary_topics": [
-        "連立一次方程式",
-        "交点",
-        "方向ベクトル",
-        "単位ベクトル",
-        "角の二等分線"
-      ],
-      "skills_summary": "直線の交点を求め、傾きと方向ベクトル、単位ベクトルの関係から角の二等分線の方程式を導く力。",
-      "answer_format": "不明（公式出題意図に形式記載なし）",
-      "difficulty_level": 3,
-      "difficulty_label": "標準",
-      "difficulty_basis": "公式出題意図からの暫定評価",
-      "difficulty_confidence": "低",
-      "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/exam/answer_example/2026/i/41.pdf",
-      "source_evidence": "公式PDFは連立一次方程式、方向・単位ベクトル、角の二等分線を段階的に扱うとしている。",
-      "rights_status": "secondary_use_subject_to_policy_and_reporting",
-      "problem_text_stored": false,
-      "verified_at": "2026-08-06",
-      "search_text": "中央大学 2026 経済学部・学部別選抜I 数学 数学II・数学C 直線とベクトル 連立一次方程式 交点 方向ベクトル 単位ベクトル 角の二等分線 直線の交点を求め、傾きと方向ベクトル、単位ベクトルの関係から角の二等分線の方程式を導く力。 標準"
-    },
-    {
-      "problem_id": "chuo-2026-0214-economics-1-iii",
-      "exam_id": "chuo-2026-0214-economics-1",
-      "group": "MARCH",
-      "university": "中央大学",
-      "year": 2026,
-      "exam_date": "2026-02-14",
-      "faculty_scope": "経済学部・学部別選抜I",
-      "math_track": "数学",
-      "question_no": "III",
-      "course": "数学II",
-      "primary_topic": "三次関数の微分・積分",
-      "secondary_topics": [
-        "接線",
-        "共有点",
-        "囲まれた面積"
-      ],
-      "skills_summary": "三次関数の接線と別の共有点を求め、曲線と接線で囲まれた面積を計算する力。",
-      "answer_format": "記述式",
-      "difficulty_level": 3.5,
-      "difficulty_label": "標準〜やや難",
-      "difficulty_basis": "公式出題意図からの暫定評価",
-      "difficulty_confidence": "低",
-      "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/exam/answer_example/2026/i/41.pdf",
-      "source_evidence": "公式PDFは三次関数の接線、接点以外の共有点、囲まれた面積を段階的に問うとしている。",
-      "rights_status": "secondary_use_subject_to_policy_and_reporting",
-      "problem_text_stored": false,
-      "verified_at": "2026-08-06",
-      "search_text": "中央大学 2026 経済学部・学部別選抜I 数学 数学II 三次関数の微分・積分 接線 共有点 囲まれた面積 三次関数の接線と別の共有点を求め、曲線と接線で囲まれた面積を計算する力。 標準〜やや難"
-    },
-    {
-      "problem_id": "waseda-2026-science-q1",
-      "exam_id": "waseda-2026-science-math",
-      "group": "早慶",
-      "university": "早稲田大学",
-      "year": 2026,
-      "exam_date": null,
-      "faculty_scope": "基幹理工学部・創造理工学部・先進理工学部",
-      "math_track": "理系数学",
-      "question_no": "I",
-      "course": "数学III",
-      "primary_topic": "微分法",
-      "secondary_topics": [
-        "指数関数",
-        "グラフ"
-      ],
-      "skills_summary": "指数関数を微分し、増減や概形を論理的に整理する",
-      "answer_format": "記述式",
-      "difficulty_level": 3.5,
-      "difficulty_label": "入試標準",
-      "difficulty_basis": "公式出題意図からの暫定評価",
-      "difficulty_confidence": "中",
-      "source_url": "https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf",
-      "source_evidence": "公式出題意図は指数関数の微分とグラフの考察を評価対象としている。",
-      "rights_status": "二次利用には出題者等の著作権処理が必要",
-      "problem_text_stored": false,
-      "verified_at": "2026-08-06",
-      "search_text": "早稲田大学 2026 基幹理工学部・創造理工学部・先進理工学部 理系数学 数学III 微分法 指数関数 グラフ 指数関数を微分し、増減や概形を論理的に整理する 入試標準"
+        "a…169972 tokens truncated…べる",
+          "接線・極値・グラフの情報を結論へつなぐ"
+        ],
+        "representations": [
+          "symbolic",
+          "graph-coordinate"
+        ],
+        "response_mode": "written",
+        "structure_flags": {
+          "multi_topic": false,
+          "case_split": false,
+          "parameter": false,
+          "graph_or_diagram": true,
+          "proof_required": false
+        },
+        "difficulty_profile": {
+          "knowledge_breadth": 3,
+          "strategy_choice": 4,
+          "logic_depth": 3.5,
+          "calculation_load": 3.5,
+          "time_pressure": 3.5,
+          "overall": 3.5
+        },
+        "common_mistakes": [
+          "接点の座標を代入し忘れる",
+          "導関数の符号と関数値を混同する",
+          "端点を含む最大・最小の比較を落とす"
+        ],
+        "similarity_keywords": [
+          "微分法",
+          "指数関数",
+          "グラフ",
+          "数学III",
+          "理系数学",
+          "導関数",
+          "接線",
+          "増減表",
+          "極値",
+          "各種関数の微分",
+          "積商",
+          "合成関数",
+          "指数対数",
+          "三角関数",
+          "微分法の応用",
+          "増減・極値・グラフ",
+          "変曲点"
+        ],
+        "archetype": "differential:single:written:symbolic+graph-coordinate",
+        "confidence": {
+          "level": "medium",
+          "topic_match": "medium",
+          "solution_pattern": "medium",
+          "difficulty_profile": "中",
+          "exact_statement": "unavailable",
+          "basis": "既存の分野・技能要約・解答形式・難易度・出典根拠から規則生成",
+          "source_scope": "metadata_only",
+          "limitations": "問題本文・具体的な式・数値条件・図の配置は保存されていないため推定しない"
+        }
+      },
+      "search_text": "早稲田大学 2026 基幹理工学部・創造理工学部・先進理工学部 理系数学 数学III 微分法 指数関数 グラフ 指数関数を微分し、増減や概形を論理的に整理する 入試標準 導関数 接線 増減表 極値 指数関数 グラフ 関数と定義域を整理する 導関数を求める 条件式または増減を調べる 接線・極値・グラフの情報を結論へつなぐ 微分法 指数関数 グラフ 数学III 理系数学 導関数 接線 増減表 極値 各種関数の微分 積商 合成関数 指数対数 三角関数 微分法の応用 増減・極値・グラフ 変曲点"
     },
     {
       "problem_id": "waseda-2026-science-q2",
@@ -897,7 +695,86 @@
       "rights_status": "二次利用には出題者等の著作権処理が必要",
       "problem_text_stored": false,
       "verified_at": "2026-08-06",
-      "search_text": "早稲田大学 2026 基幹理工学部・創造理工学部・先進理工学部 理系数学 数学A 整数 方程式 論証 自然数条件を満たす方程式の構造を分析し、整数性を論証する 入試発展"
+      "problem_features": {
+        "schema_version": 1,
+        "derivation": "metadata-rule-v1",
+        "topic_ids": [
+          "MA-05",
+          "MA-01"
+        ],
+        "category": "integer",
+        "concepts": [
+          "整数条件",
+          "約数・倍数",
+          "合同・余り",
+          "場合分け",
+          "方程式",
+          "論証"
+        ],
+        "solution_steps": [
+          "整数条件を式にする",
+          "因数分解・余り・範囲で候補を絞る",
+          "場合分けして候補を検証する",
+          "すべての整数解を確認する"
+        ],
+        "representations": [
+          "symbolic"
+        ],
+        "response_mode": "written",
+        "structure_flags": {
+          "multi_topic": false,
+          "case_split": false,
+          "parameter": false,
+          "graph_or_diagram": false,
+          "proof_required": true
+        },
+        "difficulty_profile": {
+          "knowledge_breadth": 3.5,
+          "strategy_choice": 4,
+          "logic_depth": 4,
+          "calculation_load": 4,
+          "time_pressure": 4,
+          "overall": 4
+        },
+        "common_mistakes": [
+          "負の整数や0を候補から落とす",
+          "必要条件だけで十分と判断する",
+          "場合分けの境界を重複または欠落させる"
+        ],
+        "similarity_keywords": [
+          "整数",
+          "方程式",
+          "論証",
+          "数学A",
+          "理系数学",
+          "整数条件",
+          "約数・倍数",
+          "合同・余り",
+          "場合分け",
+          "場合の数",
+          "順列・組合せ",
+          "順列",
+          "組合せ",
+          "数え上げ",
+          "約数・倍数・合同式",
+          "約数",
+          "倍数",
+          "ユークリッド互除法",
+          "合同式"
+        ],
+        "archetype": "integer:single:written:symbolic",
+        "confidence": {
+          "level": "medium",
+          "topic_match": "medium",
+          "solution_pattern": "medium",
+          "difficulty_profile": "中",
+          "exact_statement": "unavailable",
+          "basis": "既存の分野・技能要約・解答形式・難易度・出典根拠から規則生成",
+          "source_scope": "metadata_only",
+          "limitations": "問題本文・具体的な式・数値条件・図の配置は保存されていないため推定しない"
+        }
+      },
+      "search_text": "早稲田大学 2026 基幹理工学部・創造理工学部・先進理工学部 理系数学 数学A 整数 方程式 論証 自然数条件を満たす方程式の構造を分析し、整数性を論証する 入試発展 整数条件 約数・倍数 合同・余り 場合分け 方程式 論証 整数条件を式にする 因数分解・余り・範囲で候補を絞る 場合分けして候補を検証する すべての整数解を確認する 整数 方程式 論証 数学A 理系数学 整数条件 約数・倍数 合同・余り 場合分け 場合の数 順列・組合せ 順列 組合せ 数え上げ 約数・倍数・合同式 約数 倍数 ユークリッド互除法 合同式"
     },
     {
       "problem_id": "waseda-2026-science-q3",
@@ -926,7 +803,86 @@
       "rights_status": "二次利用には出題者等の著作権処理が必要",
       "problem_text_stored": false,
       "verified_at": "2026-08-06",
-      "search_text": "早稲田大学 2026 基幹理工学部・創造理工学部・先進理工学部 理系数学 数学C 空間ベクトル 平面と直線 面積 空間内の平面と直線の位置関係を把握し、図形量を求める 入試発展"
+      "problem_features": {
+        "schema_version": 1,
+        "derivation": "metadata-rule-v1",
+        "topic_ids": [
+          "MC-02",
+          "MC-01"
+        ],
+        "category": "vector",
+        "concepts": [
+          "成分表示",
+          "位置ベクトル",
+          "内積",
+          "一次結合",
+          "平面と直線",
+          "面積"
+        ],
+        "solution_steps": [
+          "基準点または座標を設定する",
+          "条件をベクトルの式に直す",
+          "成分または内積を計算する",
+          "幾何的条件へ戻して結論を確認する"
+        ],
+        "representations": [
+          "symbolic",
+          "diagram-geometric"
+        ],
+        "response_mode": "written",
+        "structure_flags": {
+          "multi_topic": false,
+          "case_split": false,
+          "parameter": false,
+          "graph_or_diagram": true,
+          "proof_required": false
+        },
+        "difficulty_profile": {
+          "knowledge_breadth": 3.5,
+          "strategy_choice": 4,
+          "logic_depth": 4,
+          "calculation_load": 4.5,
+          "time_pressure": 4,
+          "overall": 4
+        },
+        "common_mistakes": [
+          "始点と終点を逆にして符号を誤る",
+          "内積が0となる条件を取り違える",
+          "係数条件と位置関係を混同する"
+        ],
+        "similarity_keywords": [
+          "空間ベクトル",
+          "平面と直線",
+          "面積",
+          "数学C",
+          "理系数学",
+          "成分表示",
+          "位置ベクトル",
+          "内積",
+          "一次結合",
+          "ベクトル",
+          "平面ベクトル",
+          "共線",
+          "分点",
+          "面積比",
+          "空間座標",
+          "平面",
+          "垂線",
+          "体積"
+        ],
+        "archetype": "vector:single:written:symbolic+diagram-geometric",
+        "confidence": {
+          "level": "medium",
+          "topic_match": "medium",
+          "solution_pattern": "medium",
+          "difficulty_profile": "中",
+          "exact_statement": "unavailable",
+          "basis": "既存の分野・技能要約・解答形式・難易度・出典根拠から規則生成",
+          "source_scope": "metadata_only",
+          "limitations": "問題本文・具体的な式・数値条件・図の配置は保存されていないため推定しない"
+        }
+      },
+      "search_text": "早稲田大学 2026 基幹理工学部・創造理工学部・先進理工学部 理系数学 数学C 空間ベクトル 平面と直線 面積 空間内の平面と直線の位置関係を把握し、図形量を求める 入試発展 成分表示 位置ベクトル 内積 一次結合 平面と直線 面積 基準点または座標を設定する 条件をベクトルの式に直す 成分または内積を計算する 幾何的条件へ戻して結論を確認する 空間ベクトル 平面と直線 面積 数学C 理系数学 成分表示 位置ベクトル 内積 一次結合 ベクトル 平面ベクトル 共線 分点 面積比 空間座標 平面 垂線 体積"
     },
     {
       "problem_id": "waseda-2026-science-q4",
@@ -955,7 +911,79 @@
       "rights_status": "二次利用には出題者等の著作権処理が必要",
       "problem_text_stored": false,
       "verified_at": "2026-08-06",
-      "search_text": "早稲田大学 2026 基幹理工学部・創造理工学部・先進理工学部 理系数学 数学B 数列 和 漸化式 数列の規則を読み取り、一般項や和を段階的に処理する 入試標準"
+      "problem_features": {
+        "schema_version": 1,
+        "derivation": "metadata-rule-v1",
+        "topic_ids": [
+          "MB-03",
+          "MB-01"
+        ],
+        "category": "sequence",
+        "concepts": [
+          "一般項",
+          "漸化式",
+          "数列の和",
+          "初期条件",
+          "和"
+        ],
+        "solution_steps": [
+          "初項と規則を整理する",
+          "漸化式または一般項の形を選ぶ",
+          "必要なら和や差を取る",
+          "初期条件と添字を確認する"
+        ],
+        "representations": [
+          "symbolic"
+        ],
+        "response_mode": "written",
+        "structure_flags": {
+          "multi_topic": false,
+          "case_split": false,
+          "parameter": false,
+          "graph_or_diagram": false,
+          "proof_required": false
+        },
+        "difficulty_profile": {
+          "knowledge_breadth": 3,
+          "strategy_choice": 3.5,
+          "logic_depth": 3.5,
+          "calculation_load": 3.5,
+          "time_pressure": 3.5,
+          "overall": 3.5
+        },
+        "common_mistakes": [
+          "添字を1つずらす",
+          "初項を代入して定数を決め忘れる",
+          "和の項数を誤る"
+        ],
+        "similarity_keywords": [
+          "数列",
+          "和",
+          "漸化式",
+          "数学B",
+          "理系数学",
+          "一般項",
+          "数列の和",
+          "初期条件",
+          "等差・等比数列",
+          "等差数列",
+          "等比数列",
+          "特性方程式",
+          "帰納的定義"
+        ],
+        "archetype": "sequence:single:written:symbolic",
+        "confidence": {
+          "level": "medium",
+          "topic_match": "medium",
+          "solution_pattern": "medium",
+          "difficulty_profile": "中",
+          "exact_statement": "unavailable",
+          "basis": "既存の分野・技能要約・解答形式・難易度・出典根拠から規則生成",
+          "source_scope": "metadata_only",
+          "limitations": "問題本文・具体的な式・数値条件・図の配置は保存されていないため推定しない"
+        }
+      },
+      "search_text": "早稲田大学 2026 基幹理工学部・創造理工学部・先進理工学部 理系数学 数学B 数列 和 漸化式 数列の規則を読み取り、一般項や和を段階的に処理する 入試標準 一般項 漸化式 数列の和 初期条件 和 初項と規則を整理する 漸化式または一般項の形を選ぶ 必要なら和や差を取る 初期条件と添字を確認する 数列 和 漸化式 数学B 理系数学 一般項 数列の和 初期条件 等差・等比数列 等差数列 等比数列 特性方程式 帰納的定義"
     },
     {
       "problem_id": "waseda-2026-science-q5",
@@ -984,7 +1012,85 @@
       "rights_status": "二次利用には出題者等の著作権処理が必要",
       "problem_text_stored": false,
       "verified_at": "2026-08-06",
-      "search_text": "早稲田大学 2026 基幹理工学部・創造理工学部・先進理工学部 理系数学 数学III 積分法 対数関数 回転体の体積 対数関数の微分・グラフを利用し、回転体の体積を積分で求める 入試発展"
+      "problem_features": {
+        "schema_version": 1,
+        "derivation": "metadata-rule-v1",
+        "topic_ids": [
+          "M3-05",
+          "M3-07"
+        ],
+        "category": "integral",
+        "concepts": [
+          "原始関数",
+          "定積分",
+          "積分区間",
+          "図形量",
+          "対数関数",
+          "回転体の体積"
+        ],
+        "solution_steps": [
+          "被積分関数と区間を決める",
+          "符号や上下関係を確認する",
+          "適切な積分法で計算する",
+          "面積・体積などの意味に合わせて答える"
+        ],
+        "representations": [
+          "symbolic",
+          "graph-coordinate",
+          "diagram-geometric"
+        ],
+        "response_mode": "written",
+        "structure_flags": {
+          "multi_topic": false,
+          "case_split": false,
+          "parameter": false,
+          "graph_or_diagram": true,
+          "proof_required": false
+        },
+        "difficulty_profile": {
+          "knowledge_breadth": 3.5,
+          "strategy_choice": 4,
+          "logic_depth": 4,
+          "calculation_load": 4.5,
+          "time_pressure": 4,
+          "overall": 4
+        },
+        "common_mistakes": [
+          "積分定数と定積分を混同する",
+          "上下関係の変化を見落とす",
+          "回転体の半径を取り違える"
+        ],
+        "similarity_keywords": [
+          "積分法",
+          "対数関数",
+          "回転体の体積",
+          "数学III",
+          "理系数学",
+          "原始関数",
+          "定積分",
+          "積分区間",
+          "図形量",
+          "置換・部分積分",
+          "置換積分",
+          "部分積分",
+          "積分法の応用",
+          "体積・回転体",
+          "体積",
+          "回転体"
+        ],
+        "archetype": "integral:single:written:symbolic+graph-coordinate+diagram-geometric",
+        "confidence": {
+          "level": "medium",
+          "topic_match": "medium",
+          "solution_pattern": "medium",
+          "difficulty_profile": "中",
+          "exact_statement": "unavailable",
+          "basis": "既存の分野・技能要約・解答形式・難易度・出典根拠から規則生成",
+          "source_scope": "metadata_only",
+          "limitations": "問題本文・具体的な式・数値条件・図の配置は保存されていないため推定しない"
+        }
+      },
+      "search_text": "早稲田大学 2026 基幹理工学部・創造理工学部・先進理工学部 理系数学 数学III 積分法 対数関数 回転体の体積 対数関数の微分・グラフを利用し、回転体の体積を積分で求める 入試発展 原始関数 定積分 積分区間 図形量 対数関数 回転体の体積 被積分関数と区間を決める 符号や上下関係を確認する 適切な積分法で計算する 面積・体積などの意味に合わせて答える 積分法 対数関数 回転体の体積 数学III 理系数学 原始関数 定積分 積分区間 図形量 置換・部分積分 置換積分 部分積分 積分法の応用 体積・回転体 体積 回転体"
     }
   ]
 }
