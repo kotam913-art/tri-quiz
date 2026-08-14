@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173b72">
+  <title>先生用｜iPad類題作成の設定</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#eef4ff;color:#172033;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}main{width:min(760px,calc(100% - 28px));margin:28px auto 64px}.hero,.panel{border:1px solid #dbe4f0;border-radius:24px;background:#fff;box-shadow:0 12px 30px #0f172a12}.hero{padding:30px;background:linear-gradient(135deg,#102d58,#2563eb);color:#fff}.eyebrow{margin:0;color:#bfdbfe;font-size:13px;font-weight:900;letter-spacing:.08em}.hero h1{margin:8px 0 12px;font-size:clamp(28px,7vw,44px)}.hero p{margin:0;color:#e6efff;line-height:1.8}.panel{margin-top:18px;padding:24px}.panel h2{margin:0 0 16px}.steps{display:grid;gap:14px;padding:0;list-style:none}.steps li{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start;line-height:1.7}.steps b{display:grid;width:38px;height:38px;place-items:center;border-radius:12px;background:#dbeafe;color:#1d4ed8}.copy{width:100%;margin-top:8px;padding:15px;border:0;border-radius:14px;background:#1d4ed8;color:#fff;font:inherit;font-weight:900;cursor:pointer}.copy:disabled{opacity:.55}.status{min-height:1.5em;margin:10px 0 0;color:#15803d;font-weight:800}.commands{display:grid;gap:10px}.command{padding:14px;border-radius:14px;background:#f8fafc;border:1px solid #dbe4f0}.command code{display:block;margin-bottom:5px;color:#1d4ed8;font-size:16px;font-weight:900}.note{color:#60708a;line-height:1.7}.back{display:inline-block;margin-top:18px;color:#1d4ed8;font-weight:800;text-decoration:none}@media(max-width:560px){main{margin-top:14px}.hero,.panel{padding:20px;border-radius:20px}}
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">TEACHER SETUP</p>
+      <h1>iPadで類題を作る準備</h1>
+      <p>最初に1回だけ、下のルールをChatGPTの「サイト作成」プロジェクトへ登録します。</p>
+    </section>
+    <section class="panel">
+      <h2>最初の設定</h2>
+      <ol class="steps">
+        <li><b>1</b><span>下のボタンで類題作成ルールをコピーします。</span></li>
+        <li><b>2</b><span>iPadのChatGPTで「サイト作成」を開き、プロジェクト設定の「指示」へ貼り付けて保存します。</span></li>
+        <li><b>3</b><span>新しい会話でPDF・写真を添付し、短い合図を送ります。</span></li>
+      </ol>
+      <button id="copy" class="copy" type="button">類題作成ルールをコピー</button>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+    <section class="panel">
+      <h2>普段の合図</h2>
+      <div class="commands">
+        <div class="command"><code>類題化</code><span>問題PDFと先生用の解答・解説PDFを作ります。</span></div>
+        <div class="command"><code>類題化＋クイズにも追加</code><span>PDFに加えて、固定問題としてクイズ一覧へ追加します。</span></div>
+        <div class="command"><code>個人練習も</code><span>必要なときだけ、別の追加練習を作ります。</span></div>
+      </div>
+      <p class="note">出典は「2025 早稲田・教育・類題」の形式で表示し、確認できた参照ページも付けます。従量課金のOpenAI APIは使いません。</p>
+      <a class="back" href="index.html">← クイズ一覧へ戻る</a>
+    </section>
+  </main>
+  <script>
+    const button = document.querySelector("#copy");
+    const status = document.querySelector("#status");
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      status.textContent = "ルールを準備しています…";
+      try {
+        const response = await fetch("chatgpt-project-instructions.md", {cache:"no-store"});
+        if (!response.ok) throw new Error("load failed");
+        const text = await response.text();
+        await navigator.clipboard.writeText(text);
+        status.textContent = "コピーしました。ChatGPTのプロジェクト設定へ貼り付けてください。";
+      } catch {
+        status.textContent = "コピーできませんでした。リンク先の文章を長押ししてコピーしてください。";
+        const link = document.createElement("a");
+        link.href = "chatgpt-project-instructions.md";
+        link.textContent = "類題作成ルールを開く";
+        link.style.display = "block";
+        link.style.marginTop = "8px";
+        status.append(link);
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
