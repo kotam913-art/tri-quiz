@@ -9,6 +9,7 @@ const taxonomy = JSON.parse(fs.readFileSync(path.join(dataDir, "taxonomy.json"),
 const validTopicIds = new Set(taxonomy.topics.map((topic) => topic.topic_id));
 const sourceProblems = files.flatMap((file) => JSON.parse(fs.readFileSync(path.join(dataDir, file), "utf8")).problems);
 const catalog = JSON.parse(fs.readFileSync(path.join(dataDir, "catalog.json"), "utf8"));
+const liteCatalog = JSON.parse(fs.readFileSync(path.join(dataDir, "catalog-lite.json"), "utf8"));
 
 const errors = [];
 const ids = new Set();
@@ -41,6 +42,10 @@ if (sourceProblems.length !== 117) errors.push(`expected 117 source problems, go
 if (catalog.problems.length !== sourceProblems.length) errors.push("catalog/source count mismatch");
 if (catalog.counts.feature_enriched !== sourceProblems.length) errors.push("catalog feature count mismatch");
 if (catalog.feature_version !== "metadata-rule-v1") errors.push("catalog feature version mismatch");
+if (liteCatalog.count !== sourceProblems.length || liteCatalog.problems.length !== sourceProblems.length) errors.push("lite catalog count mismatch");
+if (!Array.isArray(liteCatalog.fields) || liteCatalog.fields.length !== 19) errors.push("lite catalog fields mismatch");
+if (!liteCatalog.feature_templates || Object.keys(liteCatalog.feature_templates).length < 10) errors.push("lite catalog templates missing");
+if (fs.statSync(path.join(dataDir, "catalog-lite.json")).size > 35000) errors.push("lite catalog exceeds 35 KB transfer target");
 
 for (const [indexName, values] of Object.entries(catalog.indexes)) {
   for (const [key, problemIds] of Object.entries(values)) {
@@ -62,5 +67,6 @@ if (errors.length) {
     categories: Object.keys(catalog.indexes.by_category).length,
     topic_ids: Object.keys(catalog.indexes.by_topic_id).length,
     representations: Object.keys(catalog.indexes.by_representation).length,
+    lite_bytes: fs.statSync(path.join(dataDir, "catalog-lite.json")).size,
   }));
 }

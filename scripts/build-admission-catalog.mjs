@@ -114,4 +114,82 @@ fs.writeFileSync(
   "utf8"
 );
 
+const makeLegend = (values) => uniqueStrings(values);
+const uniqueStrings = (values) => [...new Set(values.filter((value) => value !== null && value !== undefined).map(String))];
+const groups = makeLegend(problems.map((problem) => problem.group));
+const universities = makeLegend(problems.map((problem) => problem.university));
+const faculties = makeLegend(problems.map((problem) => problem.faculty_scope));
+const tracks = makeLegend(problems.map((problem) => problem.math_track));
+const courses = makeLegend(problems.map((problem) => problem.course));
+const topics = makeLegend(problems.flatMap((problem) => [problem.primary_topic, ...(problem.secondary_topics || [])]));
+const categories = makeLegend(problems.map((problem) => problem.problem_features?.category));
+const topicIds = makeLegend(problems.flatMap((problem) => problem.problem_features?.topic_ids || []));
+const representations = makeLegend(problems.flatMap((problem) => problem.problem_features?.representations || []));
+const responseModes = makeLegend(problems.map((problem) => problem.problem_features?.response_mode));
+const confidenceLevels = makeLegend(problems.map((problem) => problem.problem_features?.confidence?.level));
+const position = (legend, value) => legend.indexOf(String(value));
+const bitMask = (legend, values) => (values || []).reduce((mask, value) => mask | (1 << position(legend, value)), 0);
+
+const featureTemplates = Object.fromEntries(categories.map((category) => {
+  const features = problems.find((problem) => problem.problem_features?.category === category)?.problem_features;
+  return [category, {
+    concepts: features?.concepts?.slice(0, 4) || [],
+    solution_steps: features?.solution_steps || [],
+    common_mistakes: features?.common_mistakes || [],
+  }];
+}));
+
+const sourcesByExam = [...new Map(problems.map((problem) => [problem.exam_id, [problem.exam_id, problem.source_url]])).values()];
+const compactProblems = problems.map((problem) => {
+  const features = problem.problem_features;
+  const flags = features.structure_flags || {};
+  const flagMask =
+    (flags.multi_topic ? 1 : 0) |
+    (flags.case_split ? 2 : 0) |
+    (flags.parameter ? 4 : 0) |
+    (flags.graph_or_diagram ? 8 : 0) |
+    (flags.proof_required ? 16 : 0);
+  const difficulty = features.difficulty_profile || {};
+  return [
+    problem.problem_id,
+    problem.exam_id,
+    position(groups, problem.group),
+    position(universities, problem.university),
+    problem.year,
+    position(faculties, problem.faculty_scope),
+    position(tracks, problem.math_track),
+    problem.question_no,
+    position(courses, problem.course),
+    position(topics, problem.primary_topic),
+    (problem.secondary_topics || []).map((topic) => position(topics, topic)),
+    problem.difficulty_level,
+    position(categories, features.category),
+    features.topic_ids.map((topicId) => position(topicIds, topicId)),
+    bitMask(representations, features.representations),
+    flagMask,
+    position(responseModes, features.response_mode),
+    position(confidenceLevels, features.confidence.level),
+    [difficulty.knowledge_breadth, difficulty.strategy_choice, difficulty.logic_depth, difficulty.calculation_load, difficulty.time_pressure],
+  ];
+});
+
+const liteCatalog = {
+  v: 1,
+  generated_at: "2026-08-14",
+  count: compactProblems.length,
+  note: "問題本文なし。照合用特徴と出典URLのみ。",
+  fields: ["problem_id", "exam_id", "group", "university", "year", "faculty", "track", "question_no", "course", "primary_topic", "secondary_topics", "difficulty", "category", "topic_ids", "representation_bits", "flag_bits", "response_mode", "confidence", "difficulty_5"],
+  flags: ["multi_topic", "case_split", "parameter", "graph_or_diagram", "proof_required"],
+  legend: { groups, universities, faculties, tracks, courses, topics, categories, topic_ids: topicIds, representations, response_modes: responseModes, confidence_levels: confidenceLevels },
+  feature_templates: featureTemplates,
+  sources: sourcesByExam,
+  problems: compactProblems,
+};
+
+fs.writeFileSync(
+  path.join(dataDir, "catalog-lite.json"),
+  JSON.stringify(liteCatalog),
+  "utf8"
+);
+
 console.log(JSON.stringify(catalog.counts));

@@ -10,10 +10,10 @@
 
 ## 2. データベースを使った出典検索と類題
 
-毎回ウェブ全体を検索してはいけない。プロジェクトファイルの `catalog.json` を最優先で使う。プロジェクトに見つからない場合だけ、`https://raw.githubusercontent.com/kotam913-art/tri-quiz/main/admission-math-data/catalog.json` を直接読み込む。
+毎回ウェブ全体を検索してはいけない。プロジェクトファイルの `catalog-lite.json` を最優先で使う。プロジェクトに見つからない場合だけ、`https://raw.githubusercontent.com/kotam913-art/tri-quiz/main/admission-math-data/catalog-lite.json` を直接読み込む。`fields` が各問題配列の列順、`legend` が番号から日本語への対応、`feature_templates` が問題型ごとの概念・解法手順・典型ミスを表す。
 
 1. 元問題から、科目、主分野、副分野、必要な概念、解法手順、表現形式、解答形式、場合分けや図の有無、難易度5成分を抽象化する。具体的な式や数値は照合キーにしすぎない。
-2. `catalog.json` の `indexes` で候補を絞り、各レコードの `problem_features` を次の点数で照合する。
+2. `catalog-lite.json` の `problems` を `fields` と `legend` で復元し、`category` に対応する `feature_templates` と合わせて次の点数で照合する。
    - `topic_ids` が1つ以上一致：+5
    - `category` が一致：+4
    - `concepts` の一致：1項目につき+1、最大+4
