@@ -1,24 +1,755 @@
 {
   "source_catalog": [
-    {"source_id":"src-waseda-2022","group":"早慶","university":"早稲田大学","year":2022,"scope":"一般選抜・数学","math_variants":["学部別数学"],"landing_url":"https://www.waseda.jp/inst/admission/undergraduate/past-test/","problem_availability":"現行公式一覧では掲載期間外","answer_availability":"現行公式一覧では掲載期間外","explanation_availability":"現行公式一覧では掲載期間外","source_type":"大学公式過去問案内","access":"公式ページは公開。旧年度は所蔵資料・正規契約教材で補完","rights_status":"二次利用には出題者等の著作権処理が必要","coverage_status":"年度索引のみ・問題本文未収録","note":"早稲田大学の現行過去問ページは直近年度中心。旧年度は正規に入手した赤本等を追加し、本文を複製せずタグ付けする。","verified_at":"2026-08-06"},
-    {"source_id":"src-waseda-2023","group":"早慶","university":"早稲田大学","year":2023,"scope":"一般選抜・数学","math_variants":["学部別数学"],"landing_url":"https://www.waseda.jp/inst/admission/undergraduate/past-test/","problem_availability":"現行公式一覧では掲載期間外","answer_availability":"現行公式一覧では掲載期間外","explanation_availability":"現行公式一覧では掲載期間外","source_type":"大学公式過去問案内","access":"公式ページは公開。旧年度は所蔵資料・正規契約教材で補完","rights_status":"二次利用には出題者等の著作権処理が必要","coverage_status":"年度索引のみ・問題本文未収録","note":"現行ページの掲載期間外。公式旧ページまたは正規教材の確認後に試験区分を追加する。","verified_at":"2026-08-06"},
-    {"source_id":"src-waseda-2024","group":"早慶","university":"早稲田大学","year":2024,"scope":"一般選抜・数学","math_variants":["学部別数学"],"landing_url":"https://www.waseda.jp/inst/admission/undergraduate/past-test/","problem_availability":"大学公式過去問ページで確認可能","answer_availability":"大学公式過去問ページで確認可能","explanation_availability":"学部・科目別の掲載状況に従う","source_type":"大学公式過去問ページ","access":"公開（著作権等により一部非公開の場合あり）","rights_status":"二次利用には出題者等の著作権処理が必要","coverage_status":"年度索引済み・大問未分類","note":"公式掲載期間内の年度。学部・方式を分割して大問タグを付ける作業が残る。","verified_at":"2026-08-06"},
-    {"source_id":"src-waseda-2025","group":"早慶","university":"早稲田大学","year":2025,"scope":"一般選抜・数学","math_variants":["学部別数学"],"landing_url":"https://www.waseda.jp/inst/admission/undergraduate/past-test/","problem_availability":"大学公式過去問ページで確認可能","answer_availability":"大学公式過去問ページで確認可能","explanation_availability":"学部・科目別の掲載状況に従う","source_type":"大学公式過去問ページ","access":"公開（著作権等により一部非公開の場合あり）","rights_status":"二次利用には出題者等の著作権処理が必要","coverage_status":"年度索引済み・大問未分類","note":"公式掲載期間内の年度。学部・方式を分割して大問タグを付ける作業が残る。","verified_at":"2026-08-06"},
-    {"source_id":"src-waseda-2026","group":"早慶","university":"早稲田大学","year":2026,"scope":"一般選抜・数学","math_variants":["理工系数学","学部別数学"],"landing_url":"https://www.waseda.jp/inst/admission/undergraduate/past-test/","problem_availability":"大学公式過去問ページで確認可能","answer_availability":"大学公式過去問ページで確認可能","explanation_availability":"理工系数学は公式出題意図PDFあり","source_type":"大学公式過去問ページ＋公式出題意図PDF","access":"公開（著作権等により一部非公開の場合あり）","rights_status":"二次利用には出題者等の著作権処理が必要","coverage_status":"理工系数学5大問を分類済み","note":"理工系数学は公式出題意図から大問単位の分野・技能を登録。問題本文は保存していない。","verified_at":"2026-08-06"},
-    {"source_id":"src-keio-2022","group":"早慶","university":"慶應義塾大学","year":2022,"scope":"一般選抜・数学","math_variants":["学部別数学"],"landing_url":"https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/","problem_availability":"現行公式一覧では当該年度の問題ページを未確認","answer_availability":"現行公式一覧では当該年度の解答ページを未確認","explanation_availability":"現行公式一覧では当該年度の出題意図を未確認","source_type":"大学公式一般選抜案内","access":"公式ページは公開。旧年度は所蔵資料・正規契約教材で補完","rights_status":"問題本文はリンク・索引のみ。複製利用は許諾確認が必要","coverage_status":"年度索引のみ・問題本文未収録","note":"旧年度は所蔵する赤本等を正規に参照し、学部別にメタデータを追加する。","verified_at":"2026-08-06"},
-    {"source_id":"src-keio-2023","group":"早慶","university":"慶應義塾大学","year":2023,"scope":"一般選抜・数学","math_variants":["学部別数学"],"landing_url":"https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/","problem_availability":"現行公式一覧では当該年度の問題ページを未確認","answer_availability":"現行公式一覧では当該年度の解答ページを未確認","explanation_availability":"現行公式一覧では当該年度の出題意図を未確認","source_type":"大学公式一般選抜案内","access":"公式ページは公開。旧年度は所蔵資料・正規契約教材で補完","rights_status":"問題本文はリンク・索引のみ。複製利用は許諾確認が必要","coverage_status":"年度索引のみ・問題本文未収録","note":"旧年度は所蔵する赤本等を正規に参照し、学部別にメタデータを追加する。","verified_at":"2026-08-06"},
-    {"source_id":"src-keio-2024","group":"早慶","university":"慶應義塾大学","year":2024,"scope":"一般選抜・数学","math_variants":["学部別数学"],"landing_url":"https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/","problem_availability":"現行公式一覧では当該年度の問題ページを未確認","answer_availability":"現行公式一覧では当該年度の解答ページを未確認","explanation_availability":"現行公式一覧では当該年度の出題意図を未確認","source_type":"大学公式一般選抜案内","access":"公式ページは公開。旧年度は所蔵資料・正規契約教材で補完","rights_status":"問題本文はリンク・索引のみ。複製利用は許諾確認が必要","coverage_status":"年度索引のみ・問題本文未収録","note":"旧年度は所蔵する赤本等を正規に参照し、学部別にメタデータを追加する。","verified_at":"2026-08-06"},
-    {"source_id":"src-keio-2025","group":"早慶","university":"慶應義塾大学","year":2025,"scope":"一般選抜・数学","math_variants":["学部別数学"],"landing_url":"https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/question-2025/","problem_availability":"大学公式の2025年度試験問題ページあり","answer_availability":"大学公式一般選抜案内で掲載状況を確認","explanation_availability":"大学公式一般選抜案内で掲載状況を確認","source_type":"大学公式試験問題ページ","access":"公開（著作権等により一部非公開の場合あり）","rights_status":"問題本文はリンク・索引のみ。複製利用は許諾確認が必要","coverage_status":"年度索引済み・大問未分類","note":"2025年度は公式問題ページを確認。学部別・大問別のタグ付けは未着手。","verified_at":"2026-08-06"},
-    {"source_id":"src-keio-2026","group":"早慶","university":"慶應義塾大学","year":2026,"scope":"一般選抜・数学","math_variants":["学部別数学"],"landing_url":"https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/","problem_availability":"2026年度問題の公式公開状況を継続確認","answer_availability":"大学公式一般選抜案内に解答例・出題意図の案内あり","explanation_availability":"大学公式一般選抜案内に出題意図の案内あり","source_type":"大学公式一般選抜案内","access":"公開（著作権等により一部非公開の場合あり）","rights_status":"問題本文はリンク・索引のみ。複製利用は許諾確認が必要","coverage_status":"年度索引のみ・大問未分類","note":"確認日時点では問題本文の学部別安定URLを台帳へ未転記。公開後に追記する。","verified_at":"2026-08-06"}
+    {
+      "source_id": "src-waseda-2022",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2022,
+      "scope": "一般選抜・数学",
+      "math_variants": [
+        "学部別数学"
+      ],
+      "landing_url": "https://www.waseda.jp/inst/admission/undergraduate/past-test/",
+      "problem_availability": "現行公式一覧では掲載期間外",
+      "answer_availability": "現行公式一覧では掲載期間外",
+      "explanation_availability": "現行公式一覧では掲載期間外",
+      "source_type": "大学公式過去問案内",
+      "access": "公式ページは公開。旧年度は所蔵資料・正規契約教材で補完",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "coverage_status": "年度索引のみ・問題本文未収録",
+      "note": "早稲田大学の現行過去問ページは直近年度中心。旧年度は正規に入手した赤本等を追加し、本文を複製せずタグ付けする。",
+      "verified_at": "2026-08-06"
+    },
+    {
+      "source_id": "src-waseda-2023",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2023,
+      "scope": "一般選抜・数学",
+      "math_variants": [
+        "学部別数学"
+      ],
+      "landing_url": "https://www.waseda.jp/inst/admission/undergraduate/past-test/",
+      "problem_availability": "現行公式一覧では掲載期間外",
+      "answer_availability": "現行公式一覧では掲載期間外",
+      "explanation_availability": "現行公式一覧では掲載期間外",
+      "source_type": "大学公式過去問案内",
+      "access": "公式ページは公開。旧年度は所蔵資料・正規契約教材で補完",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "coverage_status": "年度索引のみ・問題本文未収録",
+      "note": "現行ページの掲載期間外。公式旧ページまたは正規教材の確認後に試験区分を追加する。",
+      "verified_at": "2026-08-06"
+    },
+    {
+      "source_id": "src-waseda-2024",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2024,
+      "scope": "一般選抜・数学",
+      "math_variants": [
+        "学部別数学"
+      ],
+      "landing_url": "https://www.waseda.jp/inst/admission/undergraduate/past-test/",
+      "problem_availability": "大学公式過去問ページで確認可能",
+      "answer_availability": "大学公式過去問ページで確認可能",
+      "explanation_availability": "学部・科目別の掲載状況に従う",
+      "source_type": "大学公式過去問ページ",
+      "access": "公開（著作権等により一部非公開の場合あり）",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "coverage_status": "年度索引済み・大問未分類",
+      "note": "公式掲載期間内の年度。学部・方式を分割して大問タグを付ける作業が残る。",
+      "verified_at": "2026-08-06"
+    },
+    {
+      "source_id": "src-waseda-2025",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2025,
+      "scope": "一般選抜・数学",
+      "math_variants": [
+        "学部別数学"
+      ],
+      "landing_url": "https://www.waseda.jp/inst/admission/undergraduate/past-test/",
+      "problem_availability": "大学公式過去問ページで確認可能",
+      "answer_availability": "大学公式過去問ページで確認可能",
+      "explanation_availability": "学部・科目別の掲載状況に従う",
+      "source_type": "大学公式過去問ページ",
+      "access": "公開（著作権等により一部非公開の場合あり）",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "coverage_status": "年度索引済み・大問未分類",
+      "note": "公式掲載期間内の年度。学部・方式を分割して大問タグを付ける作業が残る。",
+      "verified_at": "2026-08-06"
+    },
+    {
+      "source_id": "src-waseda-2026",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2026,
+      "scope": "一般選抜・数学",
+      "math_variants": [
+        "理工系数学",
+        "学部別数学"
+      ],
+      "landing_url": "https://www.waseda.jp/inst/admission/undergraduate/past-test/",
+      "problem_availability": "大学公式過去問ページで確認可能",
+      "answer_availability": "大学公式過去問ページで確認可能",
+      "explanation_availability": "理工系数学は公式出題意図PDFあり",
+      "source_type": "大学公式過去問ページ＋公式出題意図PDF",
+      "access": "公開（著作権等により一部非公開の場合あり）",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "coverage_status": "理工系数学5大問を分類済み",
+      "note": "理工系数学は公式出題意図から大問単位の分野・技能を登録。問題本文は保存していない。",
+      "verified_at": "2026-08-06"
+    },
+    {
+      "source_id": "src-keio-2022",
+      "group": "早慶",
+      "university": "慶應義塾大学",
+      "year": 2022,
+      "scope": "一般選抜・数学",
+      "math_variants": [
+        "学部別数学"
+      ],
+      "landing_url": "https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/",
+      "problem_availability": "現行公式一覧では当該年度の問題ページを未確認",
+      "answer_availability": "現行公式一覧では当該年度の解答ページを未確認",
+      "explanation_availability": "現行公式一覧では当該年度の出題意図を未確認",
+      "source_type": "大学公式一般選抜案内",
+      "access": "公式ページは公開。旧年度は所蔵資料・正規契約教材で補完",
+      "rights_status": "問題本文はリンク・索引のみ。複製利用は許諾確認が必要",
+      "coverage_status": "年度索引のみ・問題本文未収録",
+      "note": "旧年度は所蔵する赤本等を正規に参照し、学部別にメタデータを追加する。",
+      "verified_at": "2026-08-06"
+    },
+    {
+      "source_id": "src-keio-2023",
+      "group": "早慶",
+      "university": "慶應義塾大学",
+      "year": 2023,
+      "scope": "一般選抜・数学",
+      "math_variants": [
+        "学部別数学"
+      ],
+      "landing_url": "https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/",
+      "problem_availability": "現行公式一覧では当該年度の問題ページを未確認",
+      "answer_availability": "現行公式一覧では当該年度の解答ページを未確認",
+      "explanation_availability": "現行公式一覧では当該年度の出題意図を未確認",
+      "source_type": "大学公式一般選抜案内",
+      "access": "公式ページは公開。旧年度は所蔵資料・正規契約教材で補完",
+      "rights_status": "問題本文はリンク・索引のみ。複製利用は許諾確認が必要",
+      "coverage_status": "年度索引のみ・問題本文未収録",
+      "note": "旧年度は所蔵する赤本等を正規に参照し、学部別にメタデータを追加する。",
+      "verified_at": "2026-08-06"
+    },
+    {
+      "source_id": "src-keio-2024",
+      "group": "早慶",
+      "university": "慶應義塾大学",
+      "year": 2024,
+      "scope": "一般選抜・数学",
+      "math_variants": [
+        "学部別数学"
+      ],
+      "landing_url": "https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/",
+      "problem_availability": "現行公式一覧では当該年度の問題ページを未確認",
+      "answer_availability": "現行公式一覧では当該年度の解答ページを未確認",
+      "explanation_availability": "現行公式一覧では当該年度の出題意図を未確認",
+      "source_type": "大学公式一般選抜案内",
+      "access": "公式ページは公開。旧年度は所蔵資料・正規契約教材で補完",
+      "rights_status": "問題本文はリンク・索引のみ。複製利用は許諾確認が必要",
+      "coverage_status": "年度索引のみ・問題本文未収録",
+      "note": "旧年度は所蔵する赤本等を正規に参照し、学部別にメタデータを追加する。",
+      "verified_at": "2026-08-06"
+    },
+    {
+      "source_id": "src-keio-2025",
+      "group": "早慶",
+      "university": "慶應義塾大学",
+      "year": 2025,
+      "scope": "一般選抜・数学",
+      "math_variants": [
+        "学部別数学"
+      ],
+      "landing_url": "https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/question-2025/",
+      "problem_availability": "大学公式の2025年度試験問題ページあり",
+      "answer_availability": "大学公式一般選抜案内で掲載状況を確認",
+      "explanation_availability": "大学公式一般選抜案内で掲載状況を確認",
+      "source_type": "大学公式試験問題ページ",
+      "access": "公開（著作権等により一部非公開の場合あり）",
+      "rights_status": "問題本文はリンク・索引のみ。複製利用は許諾確認が必要",
+      "coverage_status": "年度索引済み・大問未分類",
+      "note": "2025年度は公式問題ページを確認。学部別・大問別のタグ付けは未着手。",
+      "verified_at": "2026-08-06"
+    },
+    {
+      "source_id": "src-keio-2026",
+      "group": "早慶",
+      "university": "慶應義塾大学",
+      "year": 2026,
+      "scope": "一般選抜・数学",
+      "math_variants": [
+        "学部別数学"
+      ],
+      "landing_url": "https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/",
+      "problem_availability": "2026年度問題の公式公開状況を継続確認",
+      "answer_availability": "大学公式一般選抜案内に解答例・出題意図の案内あり",
+      "explanation_availability": "大学公式一般選抜案内に出題意図の案内あり",
+      "source_type": "大学公式一般選抜案内",
+      "access": "公開（著作権等により一部非公開の場合あり）",
+      "rights_status": "問題本文はリンク・索引のみ。複製利用は許諾確認が必要",
+      "coverage_status": "年度索引のみ・大問未分類",
+      "note": "確認日時点では問題本文の学部別安定URLを台帳へ未転記。公開後に追記する。",
+      "verified_at": "2026-08-06"
+    }
   ],
   "exams": [
-    {"exam_id":"waseda-2026-science-math","source_id":"src-waseda-2026","group":"早慶","university":"早稲田大学","year":2026,"exam_date":null,"admission_method":"一般選抜","faculty_scope":"基幹理工学部・創造理工学部・先進理工学部","math_track":"理系数学","content_form":"数学独立問題","landing_url":"https://www.waseda.jp/inst/admission/undergraduate/past-test/","problem_url":null,"answer_url":null,"intent_url":"https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf","access":"公開（著作権等により一部非公開の場合あり）","rights_status":"二次利用には出題者等の著作権処理が必要","classification_status":"大問分類済み（公式出題意図）","note":"公式出題意図に基づき全5大問を分野分類。問題文・図・数値は保存していない。"}
+    {
+      "exam_id": "waseda-2026-science-math",
+      "source_id": "src-waseda-2026",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2026,
+      "exam_date": null,
+      "admission_method": "一般選抜",
+      "faculty_scope": "基幹理工学部・創造理工学部・先進理工学部",
+      "math_track": "理系数学",
+      "content_form": "数学独立問題",
+      "landing_url": "https://www.waseda.jp/inst/admission/undergraduate/past-test/",
+      "problem_url": null,
+      "answer_url": null,
+      "intent_url": "https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf",
+      "access": "公開（著作権等により一部非公開の場合あり）",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "classification_status": "大問分類済み（公式出題意図）",
+      "note": "公式出題意図に基づき全5大問を分野分類。問題文・図・数値は保存していない。"
+    }
   ],
   "problems": [
-    {"problem_id":"waseda-2026-science-q1","exam_id":"waseda-2026-science-math","group":"早慶","university":"早稲田大学","year":2026,"exam_date":null,"faculty_scope":"基幹理工学部・創造理工学部・先進理工学部","math_track":"理系数学","question_no":"I","course":"数学III","primary_topic":"微分法","secondary_topics":["指数関数","グラフ"],"skills_summary":"指数関数を微分し、増減や概形を論理的に整理する","answer_format":"記述式","difficulty_level":3.5,"difficulty_label":"入試標準","difficulty_basis":"公式出題意図からの暫定評価","difficulty_confidence":"中","source_url":"https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf","source_evidence":"公式出題意図は指数関数の微分とグラフの考察を評価対象としている。","rights_status":"二次利用には出題者等の著作権処理が必要","problem_text_stored":false,"verified_at":"2026-08-06"},
-    {"problem_id":"waseda-2026-science-q2","exam_id":"waseda-2026-science-math","group":"早慶","university":"早稲田大学","year":2026,"exam_date":null,"faculty_scope":"基幹理工学部・創造理工学部・先進理工学部","math_track":"理系数学","question_no":"II","course":"数学A","primary_topic":"整数","secondary_topics":["方程式","論証"],"skills_summary":"自然数条件を満たす方程式の構造を分析し、整数性を論証する","answer_format":"記述式","difficulty_level":4,"difficulty_label":"入試発展","difficulty_basis":"公式出題意図からの暫定評価","difficulty_confidence":"中","source_url":"https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf","source_evidence":"公式出題意図は自然数を含む方程式と根・整数性の論理的考察を評価対象としている。","rights_status":"二次利用には出題者等の著作権処理が必要","problem_text_stored":false,"verified_at":"2026-08-06"},
-    {"problem_id":"waseda-2026-science-q3","exam_id":"waseda-2026-science-math","group":"早慶","university":"早稲田大学","year":2026,"exam_date":null,"faculty_scope":"基幹理工学部・創造理工学部・先進理工学部","math_track":"理系数学","question_no":"III","course":"数学C","primary_topic":"空間ベクトル","secondary_topics":["平面と直線","面積"],"skills_summary":"空間内の平面と直線の位置関係を把握し、図形量を求める","answer_format":"記述式","difficulty_level":4,"difficulty_label":"入試発展","difficulty_basis":"公式出題意図からの暫定評価","difficulty_confidence":"中","source_url":"https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf","source_evidence":"公式出題意図は空間内の平面・直線の関係と面積の考察を評価対象としている。","rights_status":"二次利用には出題者等の著作権処理が必要","problem_text_stored":false,"verified_at":"2026-08-06"},
-    {"problem_id":"waseda-2026-science-q4","exam_id":"waseda-2026-science-math","group":"早慶","university":"早稲田大学","year":2026,"exam_date":null,"faculty_scope":"基幹理工学部・創造理工学部・先進理工学部","math_track":"理系数学","question_no":"IV","course":"数学B","primary_topic":"数列","secondary_topics":["和","漸化式"],"skills_summary":"数列の規則を読み取り、一般項や和を段階的に処理する","answer_format":"記述式","difficulty_level":3.5,"difficulty_label":"入試標準","difficulty_basis":"公式出題意図からの暫定評価","difficulty_confidence":"中","source_url":"https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf","source_evidence":"公式出題意図は数列とその和を扱う考察力・計算力を評価対象としている。","rights_status":"二次利用には出題者等の著作権処理が必要","problem_text_stored":false,"verified_at":"2026-08-06"},
-    {"problem_id":"waseda-2026-science-q5","exam_id":"waseda-2026-science-math","group":"早慶","university":"早稲田大学","year":2026,"exam_date":null,"faculty_scope":"基幹理工学部・創造理工学部・先進理工学部","math_track":"理系数学","question_no":"V","course":"数学III","primary_topic":"積分法","secondary_topics":["対数関数","回転体の体積"],"skills_summary":"対数関数の微分・グラフを利用し、回転体の体積を積分で求める","answer_format":"記述式","difficulty_level":4,"difficulty_label":"入試発展","difficulty_basis":"公式出題意図からの暫定評価","difficulty_confidence":"中","source_url":"https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf","source_evidence":"公式出題意図は対数関数の微分と回転体の体積計算を評価対象としている。","rights_status":"二次利用には出題者等の著作権処理が必要","problem_text_stored":false,"verified_at":"2026-08-06"}
+    {
+      "problem_id": "waseda-2026-science-q1",
+      "exam_id": "waseda-2026-science-math",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2026,
+      "exam_date": null,
+      "faculty_scope": "基幹理工学部・創造理工学部・先進理工学部",
+      "math_track": "理系数学",
+      "question_no": "I",
+      "course": "数学III",
+      "primary_topic": "微分法",
+      "secondary_topics": [
+        "指数関数",
+        "グラフ"
+      ],
+      "skills_summary": "指数関数を微分し、増減や概形を論理的に整理する",
+      "answer_format": "記述式",
+      "difficulty_level": 3.5,
+      "difficulty_label": "入試標準",
+      "difficulty_basis": "公式出題意図からの暫定評価",
+      "difficulty_confidence": "中",
+      "source_url": "https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf",
+      "source_evidence": "公式出題意図は指数関数の微分とグラフの考察を評価対象としている。",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "problem_text_stored": false,
+      "verified_at": "2026-08-06",
+      "problem_features": {
+        "schema_version": 1,
+        "derivation": "metadata-rule-v1",
+        "topic_ids": [
+          "M3-03",
+          "M3-04"
+        ],
+        "category": "differential",
+        "concepts": [
+          "導関数",
+          "接線",
+          "増減表",
+          "極値",
+          "指数関数",
+          "グラフ"
+        ],
+        "solution_steps": [
+          "関数と定義域を整理する",
+          "導関数を求める",
+          "条件式または増減を調べる",
+          "接線・極値・グラフの情報を結論へつなぐ"
+        ],
+        "representations": [
+          "symbolic",
+          "graph-coordinate"
+        ],
+        "response_mode": "written",
+        "structure_flags": {
+          "multi_topic": false,
+          "case_split": false,
+          "parameter": false,
+          "graph_or_diagram": true,
+          "proof_required": false
+        },
+        "difficulty_profile": {
+          "knowledge_breadth": 3,
+          "strategy_choice": 4,
+          "logic_depth": 3.5,
+          "calculation_load": 3.5,
+          "time_pressure": 3.5,
+          "overall": 3.5
+        },
+        "common_mistakes": [
+          "接点の座標を代入し忘れる",
+          "導関数の符号と関数値を混同する",
+          "端点を含む最大・最小の比較を落とす"
+        ],
+        "similarity_keywords": [
+          "微分法",
+          "指数関数",
+          "グラフ",
+          "数学III",
+          "理系数学",
+          "導関数",
+          "接線",
+          "増減表",
+          "極値",
+          "各種関数の微分",
+          "積商",
+          "合成関数",
+          "指数対数",
+          "三角関数",
+          "微分法の応用",
+          "増減・極値・グラフ",
+          "変曲点"
+        ],
+        "archetype": "differential:single:written:symbolic+graph-coordinate",
+        "confidence": {
+          "level": "medium",
+          "topic_match": "medium",
+          "solution_pattern": "medium",
+          "difficulty_profile": "中",
+          "exact_statement": "unavailable",
+          "basis": "既存の分野・技能要約・解答形式・難易度・出典根拠から規則生成",
+          "source_scope": "metadata_only",
+          "limitations": "問題本文・具体的な式・数値条件・図の配置は保存されていないため推定しない"
+        }
+      }
+    },
+    {
+      "problem_id": "waseda-2026-science-q2",
+      "exam_id": "waseda-2026-science-math",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2026,
+      "exam_date": null,
+      "faculty_scope": "基幹理工学部・創造理工学部・先進理工学部",
+      "math_track": "理系数学",
+      "question_no": "II",
+      "course": "数学A",
+      "primary_topic": "整数",
+      "secondary_topics": [
+        "方程式",
+        "論証"
+      ],
+      "skills_summary": "自然数条件を満たす方程式の構造を分析し、整数性を論証する",
+      "answer_format": "記述式",
+      "difficulty_level": 4,
+      "difficulty_label": "入試発展",
+      "difficulty_basis": "公式出題意図からの暫定評価",
+      "difficulty_confidence": "中",
+      "source_url": "https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf",
+      "source_evidence": "公式出題意図は自然数を含む方程式と根・整数性の論理的考察を評価対象としている。",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "problem_text_stored": false,
+      "verified_at": "2026-08-06",
+      "problem_features": {
+        "schema_version": 1,
+        "derivation": "metadata-rule-v1",
+        "topic_ids": [
+          "MA-05",
+          "MA-01"
+        ],
+        "category": "integer",
+        "concepts": [
+          "整数条件",
+          "約数・倍数",
+          "合同・余り",
+          "場合分け",
+          "方程式",
+          "論証"
+        ],
+        "solution_steps": [
+          "整数条件を式にする",
+          "因数分解・余り・範囲で候補を絞る",
+          "場合分けして候補を検証する",
+          "すべての整数解を確認する"
+        ],
+        "representations": [
+          "symbolic"
+        ],
+        "response_mode": "written",
+        "structure_flags": {
+          "multi_topic": false,
+          "case_split": false,
+          "parameter": false,
+          "graph_or_diagram": false,
+          "proof_required": true
+        },
+        "difficulty_profile": {
+          "knowledge_breadth": 3.5,
+          "strategy_choice": 4,
+          "logic_depth": 4,
+          "calculation_load": 4,
+          "time_pressure": 4,
+          "overall": 4
+        },
+        "common_mistakes": [
+          "負の整数や0を候補から落とす",
+          "必要条件だけで十分と判断する",
+          "場合分けの境界を重複または欠落させる"
+        ],
+        "similarity_keywords": [
+          "整数",
+          "方程式",
+          "論証",
+          "数学A",
+          "理系数学",
+          "整数条件",
+          "約数・倍数",
+          "合同・余り",
+          "場合分け",
+          "場合の数",
+          "順列・組合せ",
+          "順列",
+          "組合せ",
+          "数え上げ",
+          "約数・倍数・合同式",
+          "約数",
+          "倍数",
+          "ユークリッド互除法",
+          "合同式"
+        ],
+        "archetype": "integer:single:written:symbolic",
+        "confidence": {
+          "level": "medium",
+          "topic_match": "medium",
+          "solution_pattern": "medium",
+          "difficulty_profile": "中",
+          "exact_statement": "unavailable",
+          "basis": "既存の分野・技能要約・解答形式・難易度・出典根拠から規則生成",
+          "source_scope": "metadata_only",
+          "limitations": "問題本文・具体的な式・数値条件・図の配置は保存されていないため推定しない"
+        }
+      }
+    },
+    {
+      "problem_id": "waseda-2026-science-q3",
+      "exam_id": "waseda-2026-science-math",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2026,
+      "exam_date": null,
+      "faculty_scope": "基幹理工学部・創造理工学部・先進理工学部",
+      "math_track": "理系数学",
+      "question_no": "III",
+      "course": "数学C",
+      "primary_topic": "空間ベクトル",
+      "secondary_topics": [
+        "平面と直線",
+        "面積"
+      ],
+      "skills_summary": "空間内の平面と直線の位置関係を把握し、図形量を求める",
+      "answer_format": "記述式",
+      "difficulty_level": 4,
+      "difficulty_label": "入試発展",
+      "difficulty_basis": "公式出題意図からの暫定評価",
+      "difficulty_confidence": "中",
+      "source_url": "https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf",
+      "source_evidence": "公式出題意図は空間内の平面・直線の関係と面積の考察を評価対象としている。",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "problem_text_stored": false,
+      "verified_at": "2026-08-06",
+      "problem_features": {
+        "schema_version": 1,
+        "derivation": "metadata-rule-v1",
+        "topic_ids": [
+          "MC-02",
+          "MC-01"
+        ],
+        "category": "vector",
+        "concepts": [
+          "成分表示",
+          "位置ベクトル",
+          "内積",
+          "一次結合",
+          "平面と直線",
+          "面積"
+        ],
+        "solution_steps": [
+          "基準点または座標を設定する",
+          "条件をベクトルの式に直す",
+          "成分または内積を計算する",
+          "幾何的条件へ戻して結論を確認する"
+        ],
+        "representations": [
+          "symbolic",
+          "diagram-geometric"
+        ],
+        "response_mode": "written",
+        "structure_flags": {
+          "multi_topic": false,
+          "case_split": false,
+          "parameter": false,
+          "graph_or_diagram": true,
+          "proof_required": false
+        },
+        "difficulty_profile": {
+          "knowledge_breadth": 3.5,
+          "strategy_choice": 4,
+          "logic_depth": 4,
+          "calculation_load": 4.5,
+          "time_pressure": 4,
+          "overall": 4
+        },
+        "common_mistakes": [
+          "始点と終点を逆にして符号を誤る",
+          "内積が0となる条件を取り違える",
+          "係数条件と位置関係を混同する"
+        ],
+        "similarity_keywords": [
+          "空間ベクトル",
+          "平面と直線",
+          "面積",
+          "数学C",
+          "理系数学",
+          "成分表示",
+          "位置ベクトル",
+          "内積",
+          "一次結合",
+          "ベクトル",
+          "平面ベクトル",
+          "共線",
+          "分点",
+          "面積比",
+          "空間座標",
+          "平面",
+          "垂線",
+          "体積"
+        ],
+        "archetype": "vector:single:written:symbolic+diagram-geometric",
+        "confidence": {
+          "level": "medium",
+          "topic_match": "medium",
+          "solution_pattern": "medium",
+          "difficulty_profile": "中",
+          "exact_statement": "unavailable",
+          "basis": "既存の分野・技能要約・解答形式・難易度・出典根拠から規則生成",
+          "source_scope": "metadata_only",
+          "limitations": "問題本文・具体的な式・数値条件・図の配置は保存されていないため推定しない"
+        }
+      }
+    },
+    {
+      "problem_id": "waseda-2026-science-q4",
+      "exam_id": "waseda-2026-science-math",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2026,
+      "exam_date": null,
+      "faculty_scope": "基幹理工学部・創造理工学部・先進理工学部",
+      "math_track": "理系数学",
+      "question_no": "IV",
+      "course": "数学B",
+      "primary_topic": "数列",
+      "secondary_topics": [
+        "和",
+        "漸化式"
+      ],
+      "skills_summary": "数列の規則を読み取り、一般項や和を段階的に処理する",
+      "answer_format": "記述式",
+      "difficulty_level": 3.5,
+      "difficulty_label": "入試標準",
+      "difficulty_basis": "公式出題意図からの暫定評価",
+      "difficulty_confidence": "中",
+      "source_url": "https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf",
+      "source_evidence": "公式出題意図は数列とその和を扱う考察力・計算力を評価対象としている。",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "problem_text_stored": false,
+      "verified_at": "2026-08-06",
+      "problem_features": {
+        "schema_version": 1,
+        "derivation": "metadata-rule-v1",
+        "topic_ids": [
+          "MB-03",
+          "MB-01"
+        ],
+        "category": "sequence",
+        "concepts": [
+          "一般項",
+          "漸化式",
+          "数列の和",
+          "初期条件",
+          "和"
+        ],
+        "solution_steps": [
+          "初項と規則を整理する",
+          "漸化式または一般項の形を選ぶ",
+          "必要なら和や差を取る",
+          "初期条件と添字を確認する"
+        ],
+        "representations": [
+          "symbolic"
+        ],
+        "response_mode": "written",
+        "structure_flags": {
+          "multi_topic": false,
+          "case_split": false,
+          "parameter": false,
+          "graph_or_diagram": false,
+          "proof_required": false
+        },
+        "difficulty_profile": {
+          "knowledge_breadth": 3,
+          "strategy_choice": 3.5,
+          "logic_depth": 3.5,
+          "calculation_load": 3.5,
+          "time_pressure": 3.5,
+          "overall": 3.5
+        },
+        "common_mistakes": [
+          "添字を1つずらす",
+          "初項を代入して定数を決め忘れる",
+          "和の項数を誤る"
+        ],
+        "similarity_keywords": [
+          "数列",
+          "和",
+          "漸化式",
+          "数学B",
+          "理系数学",
+          "一般項",
+          "数列の和",
+          "初期条件",
+          "等差・等比数列",
+          "等差数列",
+          "等比数列",
+          "特性方程式",
+          "帰納的定義"
+        ],
+        "archetype": "sequence:single:written:symbolic",
+        "confidence": {
+          "level": "medium",
+          "topic_match": "medium",
+          "solution_pattern": "medium",
+          "difficulty_profile": "中",
+          "exact_statement": "unavailable",
+          "basis": "既存の分野・技能要約・解答形式・難易度・出典根拠から規則生成",
+          "source_scope": "metadata_only",
+          "limitations": "問題本文・具体的な式・数値条件・図の配置は保存されていないため推定しない"
+        }
+      }
+    },
+    {
+      "problem_id": "waseda-2026-science-q5",
+      "exam_id": "waseda-2026-science-math",
+      "group": "早慶",
+      "university": "早稲田大学",
+      "year": 2026,
+      "exam_date": null,
+      "faculty_scope": "基幹理工学部・創造理工学部・先進理工学部",
+      "math_track": "理系数学",
+      "question_no": "V",
+      "course": "数学III",
+      "primary_topic": "積分法",
+      "secondary_topics": [
+        "対数関数",
+        "回転体の体積"
+      ],
+      "skills_summary": "対数関数の微分・グラフを利用し、回転体の体積を積分で求める",
+      "answer_format": "記述式",
+      "difficulty_level": 4,
+      "difficulty_label": "入試発展",
+      "difficulty_basis": "公式出題意図からの暫定評価",
+      "difficulty_confidence": "中",
+      "source_url": "https://www.waseda.jp/fsci/assets/uploads/2026/03/b8f94ea2c7d5d40960cc7c6cd923860f-2.pdf",
+      "source_evidence": "公式出題意図は対数関数の微分と回転体の体積計算を評価対象としている。",
+      "rights_status": "二次利用には出題者等の著作権処理が必要",
+      "problem_text_stored": false,
+      "verified_at": "2026-08-06",
+      "problem_features": {
+        "schema_version": 1,
+        "derivation": "metadata-rule-v1",
+        "topic_ids": [
+          "M3-05",
+          "M3-07"
+        ],
+        "category": "integral",
+        "concepts": [
+          "原始関数",
+          "定積分",
+          "積分区間",
+          "図形量",
+          "対数関数",
+          "回転体の体積"
+        ],
+        "solution_steps": [
+          "被積分関数と区間を決める",
+          "符号や上下関係を確認する",
+          "適切な積分法で計算する",
+          "面積・体積などの意味に合わせて答える"
+        ],
+        "representations": [
+          "symbolic",
+          "graph-coordinate",
+          "diagram-geometric"
+        ],
+        "response_mode": "written",
+        "structure_flags": {
+          "multi_topic": false,
+          "case_split": false,
+          "parameter": false,
+          "graph_or_diagram": true,
+          "proof_required": false
+        },
+        "difficulty_profile": {
+          "knowledge_breadth": 3.5,
+          "strategy_choice": 4,
+          "logic_depth": 4,
+          "calculation_load": 4.5,
+          "time_pressure": 4,
+          "overall": 4
+        },
+        "common_mistakes": [
+          "積分定数と定積分を混同する",
+          "上下関係の変化を見落とす",
+          "回転体の半径を取り違える"
+        ],
+        "similarity_keywords": [
+          "積分法",
+          "対数関数",
+          "回転体の体積",
+          "数学III",
+          "理系数学",
+          "原始関数",
+          "定積分",
+          "積分区間",
+          "図形量",
+          "置換・部分積分",
+          "置換積分",
+          "部分積分",
+          "積分法の応用",
+          "体積・回転体",
+          "体積",
+          "回転体"
+        ],
+        "archetype": "integral:single:written:symbolic+graph-coordinate+diagram-geometric",
+        "confidence": {
+          "level": "medium",
+          "topic_match": "medium",
+          "solution_pattern": "medium",
+          "difficulty_profile": "中",
+          "exact_statement": "unavailable",
+          "basis": "既存の分野・技能要約・解答形式・難易度・出典根拠から規則生成",
+          "source_scope": "metadata_only",
+          "limitations": "問題本文・具体的な式・数値条件・図の配置は保存されていないため推定しない"
+        }
+      }
+    }
   ]
 }
