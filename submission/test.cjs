@@ -1,0 +1,19 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const c={};vm.createContext(c);vm.runInContext(fs.readFileSync(__dirname+'/Code.gs','utf8'),c);
+const basic=['4','√5','2','1','√3','√2','1','1','2','√3','1','√3/2','-√3/2','定義されない','√2','45','2','60','30','√3'];
+assert(c.perfect_('basic',basic));assert(!c.perfect_('basic',basic.slice(1)));assert(!c.perfect_('basic',['',...basic.slice(1)]));
+const angle={deg:[210,225,240,300,315,330],frac:[[2,3],[3,4],[5,6],[7,6],[5,4],[4,3],[5,3],[7,4],[11,6]]};assert(c.perfect_('angle',angle));assert(!c.perfect_('angle',{...angle,frac:[[2,0],...angle.frac.slice(1)]}));
+const radian={conversions:{c1:'π/3',c2:'π/4',c3:'π/6',c4:'7π/6',c5:'5π/3',c6:'3π/4'},pairs:{p1:[1,4],p2:[3,4],p3:[2,3],p4:[1,3],p5:[2,4]}};assert(c.perfect_('radian',radian));assert(!c.perfect_('radian',{...radian,pairs:{...radian.pairs,p1:[1,1]}}));
+const trig=[['π/6',30],['3π/4',135],['4π/3',240]].map(([theta,d])=>({theta,answer:{q:String(d<90?1:d<180?2:3),ref:String(d===30?30:d===135?45:60),x:d<90?'+':'-',y:d<180?'+':'-',sin:{n:String(Math.sin(d*Math.PI/180)),d:'1'},cos:{n:String(Math.cos(d*Math.PI/180)),d:'1'},tan:{n:String(Math.tan(d*Math.PI/180)),d:'1'}}}));assert(c.perfect_('trig',trig));assert(!c.perfect_('trig',[trig[0],trig[0],trig[0]]));
+assert(Number.isNaN(c.number_('process.exit()')));assert(Number.isNaN(c.number_('')));assert(Number.isNaN(c.number_('1/0')));
+// Mock storage: no writes for wrong score/code, dedupe successful and repeated requests.
+const rows=[['年度','学年','組','番号','課題']];let locked=false;
+c.PropertiesService={getScriptProperties:()=>({getProperty:()=> 'test'})};
+c.LockService={getScriptLock:()=>({waitLock:()=>{locked=true},releaseLock:()=>{locked=false}})};
+c.Utilities={formatDate:(d,z,f)=>f==='yyyy'?'2026':'10'};
+c.SpreadsheetApp={openById:()=>({getSheetByName:name=>name==='名簿'?{getDataRange:()=>({getValues:()=>[['学年','組','番号','コード'],[2,1,1,'secret']]})}:{getDataRange:()=>({getValues:()=>rows}),appendRow:r=>rows.push(r)}}),flush:()=>{}};
+const p={task:'basic',answers:basic,student:{grade:2,group:1,number:1,code:'secret'}};
+assert(!c.submitPerfect({...p,answers:[]}).ok);assert.equal(rows.length,1);
+assert(!c.submitPerfect({...p,student:{...p.student,code:'wrong'}}).ok);assert.equal(rows.length,1);
+assert(c.submitPerfect(p).ok);assert.equal(rows.length,2);assert(c.submitPerfect(p).duplicate);assert.equal(rows.length,2);assert(!locked);
+console.log('PASS: 4 validators, malformed answers, identity, non-perfect rejection, duplicate prevention');

@@ -126,6 +126,7 @@
     $('#total').textContent=`${total} / 11`;
     $('#message').textContent=total===11?'全問正解です。弧度法も単位円もばっちりです！':total>=8?'よくできています。正答の三角形の位置も確認しよう。':total>=5?'あと一歩です。符号から位置を絞ると見つけやすくなります。':'正答を見ながら、三角形の位置を確認しよう。';
     result.classList.add('show');
+    window.QuizSubmission?.graded('radian',total,11,state);
   }
   function lock(value){
     locked=value;
