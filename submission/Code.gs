@@ -1,11 +1,12 @@
 // スプレッドシートの「拡張機能 → Apps Script」に貼り付けます。
-// setup_ はエディタで一度だけ実行。末尾 _ の関数はWebから呼び出せません。
-const TASKS_ = {basic:'三角比 基本',angle:'角度・単位円',trig:'三角関数 思考ステップ',radian:'弧度法・2つの角'};
+// 初期設定・課題更新は adminSetup を実行。提出コード発行は adminIssueCodes。
+const EXP_TASKS_ = {"explog-01": {"title": "整数の指数・指数法則", "questions": [{"type": "number", "answer": "1"}, {"type": "number", "answer": "1/16"}, {"type": "number", "answer": "2"}, {"type": "number", "answer": "-5"}, {"type": "number", "answer": "-4"}, {"type": "number", "answer": "-8"}]}, "explog-02": {"title": "累乗根と分数の指数", "questions": [{"type": "number", "answer": "1/4"}, {"type": "number", "answer": "2/3"}, {"type": "number", "answer": "-1/4"}, {"type": "number", "answer": "6"}]}, "explog-03": {"title": "分数の指数の計算", "questions": [{"type": "number", "answer": "4"}, {"type": "number", "answer": "2"}, {"type": "number", "answer": "1"}, {"type": "number", "answer": "1/8"}]}, "explog-04": {"title": "指数関数のグラフ", "questions": [{"type": "number", "answer": "1"}, {"type": "number", "answer": "1/3"}, {"type": "choice", "answer": "0"}, {"type": "choice", "answer": "1"}, {"type": "choice", "answer": "0"}]}, "explog-05": {"title": "指数・累乗根の大小比較", "questions": [{"type": "choice", "answer": "0"}, {"type": "choice", "answer": "1"}, {"type": "choice", "answer": "0"}, {"type": "choice", "answer": "2"}]}, "explog-06": {"title": "指数方程式", "questions": [{"type": "number", "answer": "3/2"}, {"type": "number", "answer": "-3/2"}, {"type": "number", "answer": "-2"}, {"type": "number", "answer": "2/3"}]}, "explog-07": {"title": "指数不等式", "questions": [{"type": "choice", "answer": "0"}, {"type": "choice", "answer": "1"}, {"type": "choice", "answer": "1"}, {"type": "choice", "answer": "2"}]}, "explog-08": {"title": "対数の意味と値", "questions": [{"type": "number", "answer": "2"}, {"type": "number", "answer": "4"}, {"type": "number", "answer": "3/2"}, {"type": "number", "answer": "-5"}, {"type": "number", "answer": "1/4"}]}, "explog-09": {"title": "対数の性質", "questions": [{"type": "number", "answer": "5"}, {"type": "number", "answer": "7"}, {"type": "number", "answer": "3"}, {"type": "number", "answer": "5"}, {"type": "number", "answer": "2"}, {"type": "number", "answer": "1/2"}]}, "explog-10": {"title": "対数をまとめて計算", "questions": [{"type": "number", "answer": "4"}, {"type": "number", "answer": "1"}, {"type": "number", "answer": "1/2"}, {"type": "number", "answer": "-1"}, {"type": "number", "answer": "1/2"}]}, "explog-11": {"title": "底の変換公式", "questions": [{"type": "number", "answer": "3/2"}, {"type": "number", "answer": "1/6"}, {"type": "number", "answer": "3/2"}, {"type": "number", "answer": "2"}, {"type": "number", "answer": "1"}]}, "explog-12": {"title": "対数の条件とグラフ", "questions": [{"type": "choice", "answer": "0"}, {"type": "number", "answer": "0"}, {"type": "number", "answer": "-1"}, {"type": "choice", "answer": "1"}, {"type": "choice", "answer": "3"}]}, "explog-13": {"title": "対数の大小比較", "questions": [{"type": "choice", "answer": "0"}, {"type": "choice", "answer": "2"}, {"type": "choice", "answer": "2"}, {"type": "choice", "answer": "2"}, {"type": "choice", "answer": "0"}]}, "explog-14": {"title": "対数方程式・基本の不等式", "questions": [{"type": "number", "answer": "16"}, {"type": "number", "answer": "1/4"}, {"type": "choice", "answer": "0"}, {"type": "choice", "answer": "1"}]}, "explog-15": {"title": "対数の和を含む方程式", "questions": [{"type": "choice", "answer": "1"}, {"type": "number", "answer": "9"}, {"type": "number", "answer": "2"}]}, "explog-16": {"title": "真数条件を伴う対数不等式", "questions": [{"type": "choice", "answer": "1"}, {"type": "choice", "answer": "0"}, {"type": "choice", "answer": "2"}]}, "explog-17": {"title": "常用対数と桁数の考え方", "questions": [{"type": "number", "answer": "3"}, {"type": "number", "answer": "4"}, {"type": "number", "answer": "20"}, {"type": "number", "answer": "9"}]}, "explog-18": {"title": "常用対数で累乗の桁数を求める", "questions": [{"type": "number", "answer": "7"}, {"type": "number", "answer": "10"}, {"type": "number", "answer": "10"}]}};
+const TASKS_ = {basic:'三角比 基本',angle:'角度・単位円',trig:'三角関数 思考ステップ',radian:'弧度法・2つの角',...Object.fromEntries(Object.entries(EXP_TASKS_).map(([id,t])=>[id,'指数対数 '+id.slice(-2)+' '+t.title]))};
 function setup_(){
   const ss=SpreadsheetApp.getActiveSpreadsheet();
   PropertiesService.getScriptProperties().setProperty('SHEET_ID',ss.getId());
   [['名簿',['学年','組','出席番号','提出コード']],['満点記録',['年度','学年','組','出席番号','課題ID','課題名','達成日時']],['集計',['年度','学年','組','出席番号',...Object.values(TASKS_),'加点合計']]].forEach(([name,header])=>{
-    const sh=ss.getSheetByName(name)||ss.insertSheet(name);if(sh.getLastRow()===0)sh.appendRow(header);sh.setFrozenRows(1);sh.getRange(1,1,1,header.length).setBackground('#173b72').setFontColor('white').setFontWeight('bold');
+    const sh=ss.getSheetByName(name)||ss.insertSheet(name);if(sh.getMaxColumns()<header.length)sh.insertColumnsAfter(sh.getMaxColumns(),header.length-sh.getMaxColumns());if(sh.getLastRow()===0)sh.appendRow(header);sh.setFrozenRows(1);sh.getRange(1,1,1,header.length).setBackground('#173b72').setFontColor('white').setFontWeight('bold');
   });
   refreshSummary_();
 }
@@ -16,12 +17,27 @@ function issueCodes_(){
   rows.forEach((r,i)=>{if(r.slice(0,3).every(x=>String(x).trim())&&!r[3])sh.getRange(i+2,4).setValue(Utilities.getUuid().replace(/-/g,'').slice(0,12))});refreshSummary_();
 }
 function refreshSummary_(){
-  const ss=book_(),sh=ss.getSheetByName('集計');
-  // 集計は満点記録から再計算するため、送信の再試行でも加点は増えません。
-  sh.getRange('A2').setFormula("=IFERROR(LET(y,YEAR(TODAY())-IF(MONTH(TODAY())<4,1,0),r,FILTER('名簿'!A2:C,'名簿'!A2:A<>\"\"),g,CHOOSECOLS(r,1),c,CHOOSECOLS(r,2),n,CHOOSECOLS(r,3),b,MAP(g,c,n,LAMBDA(gg,cc,nn,IF(COUNTIFS('満点記録'!A2:A,y,'満点記録'!B2:B,gg,'満点記録'!C2:C,cc,'満点記録'!D2:D,nn,'満点記録'!E2:E,\"basic\")>0,1,0))),a,MAP(g,c,n,LAMBDA(gg,cc,nn,IF(COUNTIFS('満点記録'!A2:A,y,'満点記録'!B2:B,gg,'満点記録'!C2:C,cc,'満点記録'!D2:D,nn,'満点記録'!E2:E,\"angle\")>0,1,0))),t,MAP(g,c,n,LAMBDA(gg,cc,nn,IF(COUNTIFS('満点記録'!A2:A,y,'満点記録'!B2:B,gg,'満点記録'!C2:C,cc,'満点記録'!D2:D,nn,'満点記録'!E2:E,\"trig\")>0,1,0))),p,MAP(g,c,n,LAMBDA(gg,cc,nn,IF(COUNTIFS('満点記録'!A2:A,y,'満点記録'!B2:B,gg,'満点記録'!C2:C,cc,'満点記録'!D2:D,nn,'満点記録'!E2:E,\"radian\")>0,1,0))),HSTACK(IF(g<>\"\",y,),r,b,a,t,p,b+a+t+p)),\"\")");
+  const sh=book_().getSheetByName('集計'), ids=Object.keys(TASKS_);
+  const headers=['年度','学年','組','出席番号',...Object.values(TASKS_),'加点合計'];
+  if(sh.getMaxColumns()<headers.length)sh.insertColumnsAfter(sh.getMaxColumns(),headers.length-sh.getMaxColumns());
+  sh.getRange('A2').clearContent();
+  sh.getRange(1,1,1,headers.length).setValues([headers]).setBackground('#173b72').setFontColor('white').setFontWeight('bold');
+  const columns=ids.map(id=>`MAP(grades,groups,nums,LAMBDA(gg,cc,nn,IF(COUNTIFS('満点記録'!A2:A,schoolyear,'満点記録'!B2:B,gg,'満点記録'!C2:C,cc,'満点記録'!D2:D,nn,'満点記録'!E2:E,"${id}")>0,1,0)))`).join(',');
+  sh.getRange('A2').setFormula(`=IFERROR(LET(schoolyear,YEAR(TODAY())-IF(MONTH(TODAY())<4,1,0),roster,FILTER('名簿'!A2:C,'名簿'!A2:A<>""),grades,CHOOSECOLS(roster,1),groups,CHOOSECOLS(roster,2),nums,CHOOSECOLS(roster,3),scores,HSTACK(${columns}),HSTACK(ARRAYFORMULA(IF(grades<>"",schoolyear,)),roster,scores,BYROW(scores,LAMBDA(rowvalues,SUM(rowvalues))))),"")`);
 }
+// スプレッドシートを開き直すと管理メニューが現れます。
+function onOpen(){SpreadsheetApp.getUi().createMenu('クイズ管理').addItem('初期設定・課題を更新','adminSetup').addItem('提出コードを発行','adminIssueCodes').addToUi()}
+function requireEditor_(){
+ const sheet=SpreadsheetApp.getActiveSpreadsheet();
+ const email=Session.getActiveUser().getEmail();
+ if(!sheet||!email||email!==Session.getEffectiveUser().getEmail())throw Error('スプレッドシートの編集画面から実行してください。');
+ const allowed=PropertiesService.getScriptProperties().getProperty('SHEET_ID');
+ if(allowed&&allowed!==sheet.getId())throw Error('登録したスプレッドシートから実行してください。');
+}
+function adminSetup(){requireEditor_();setup_()}
+function adminIssueCodes(){requireEditor_();issueCodes_()}
 function doGet(e){
-  const channel=String(e.parameter.channel||''),origin=String(e.parameter.origin||'');
+  const params=e&&e.parameter||{};const channel=String(params.channel||''),origin=String(params.origin||'');
   if(!/^[\w-]{20,80}$/.test(channel)||origin!=='https://raw.githack.com')return HtmlService.createHtmlOutput('満点提出用の接続先です。教材サイトから利用してください。');
   const html='<!doctype html><html><body><script>const channel='+JSON.stringify(channel)+', origin='+JSON.stringify(origin)+';window.addEventListener("message",e=>{const d=e.data;if(e.origin!==origin||e.source!==window.top||!d||d.channel!==channel||d.type!=="submit")return;google.script.run.withSuccessHandler(r=>window.top.postMessage({type:"result",channel,...r},origin)).withFailureHandler(()=>window.top.postMessage({type:"result",channel,ok:false,error:"保存できませんでした。再送してください。"},origin)).submitPerfect(d.payload)});window.top.postMessage({type:"ready",channel},origin);</script></body></html>';
   return HtmlService.createHtmlOutput(html).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
@@ -59,6 +75,7 @@ function close_(raw,n,tol){return Math.abs(number_(raw)-n)<=(tol||1e-6)}
 function ratio_(v){if(!v)return NaN;const n=number_(v.n===undefined?v[0]:v.n),d=number_(v.d===undefined?v[1]:v.d);return d!==0?n/d:NaN}
 function perfect_(task,a){
  try{
+ if(Object.prototype.hasOwnProperty.call(EXP_TASKS_,task)){const qs=EXP_TASKS_[task].questions;return Array.isArray(a)&&a.length===qs.length&&qs.every((q,i)=>q.type==='number'?close_(a[i],number_(q.answer),1e-8):String(a[i])===q.answer)}
  if(task==='basic'){
   const values=[4,Math.sqrt(5),2,1,Math.sqrt(3),Math.sqrt(2),1,1,2,Math.sqrt(3),1,Math.sqrt(3)/2,-Math.sqrt(3)/2,null,Math.sqrt(2),45,2,60,30,Math.sqrt(3)];
   return Array.isArray(a)&&a.length===20&&values.every((v,i)=>v===null?['なし','ない','存在しない','定義されない','未定義','不可能','undefined','undef','dne','nan','×','x'].includes(norm_(a[i]).toLowerCase()):close_(a[i],v,.015));
