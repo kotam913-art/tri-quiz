@@ -17,8 +17,16 @@ function issueCodes_(){
   rows.forEach((r,i)=>{if(r.slice(0,3).every(x=>String(x).trim())&&!r[3])sh.getRange(i+2,4).setValue(Utilities.getUuid().replace(/-/g,'').slice(0,12))});refreshSummary_();
 }
 function refreshSummary_(){
-  const sh=book_().getSheetByName('集計'), ids=Object.keys(TASKS_);
-  const headers=['年度','学年','組','出席番号',...Object.values(TASKS_),'加点合計'];
+  const ss=book_(), ids=Object.keys(TASKS_);
+  writeSummary_(ss,'集計',ids);
+  writeSummary_(ss,'三角関数の集計',ids.filter(id=>!id.startsWith('explog-')));
+  writeSummary_(ss,'指数・対数の集計',ids.filter(id=>id.startsWith('explog-')));
+}
+function writeSummary_(ss,name,ids){
+  const sh=ss.getSheetByName(name)||ss.insertSheet(name);
+  const headers=['年度','学年','組','出席番号',...ids.map(id=>TASKS_[id]),'加点合計'];
+  sh.setFrozenRows(1);
+  sh.setFrozenColumns(4);
   if(sh.getMaxColumns()<headers.length)sh.insertColumnsAfter(sh.getMaxColumns(),headers.length-sh.getMaxColumns());
   sh.getRange('A2').clearContent();
   sh.getRange(1,1,1,headers.length).setValues([headers]).setBackground('#173b72').setFontColor('white').setFontWeight('bold');
