@@ -46,27 +46,45 @@ function adminSetup(){requireEditor_();setup_()}
 function adminIssueCodes(){requireEditor_();issueCodes_()}
 function doGet(e){
   const params=e&&e.parameter||{};const channel=String(params.channel||''),origin=String(params.origin||'');
-  if(!/^[\w-]{20,80}$/.test(channel)||origin!=='https://raw.githack.com')return HtmlService.createHtmlOutput('満点提出用の接続先です。教材サイトから利用してください。');
-  const html='<!doctype html><html><body><script>const channel='+JSON.stringify(channel)+', origin='+JSON.stringify(origin)+';window.addEventListener("message",e=>{const d=e.data;if(e.origin!==origin||e.source!==window.top||!d||d.channel!==channel||d.type!=="submit")return;google.script.run.withSuccessHandler(r=>window.top.postMessage({type:"result",channel,...r},origin)).withFailureHandler(()=>window.top.postMessage({type:"result",channel,ok:false,error:"保存できませんでした。再送してください。"},origin)).submitPerfect(d.payload)});window.top.postMessage({type:"ready",channel},origin);</script></body></html>';
+  if(params.mode==='submit')return directPage_();
+  if(!/^[\w-]{20,80}$/.test(channel)||origin!=='https://raw.githack.com')return HtmlService.createHtmlOutput('<meta name="viewport" content="width=device-width,initial-scale=1"><h2>提出受付 v3 に接続できました</h2><p>この画面が見える場合、Googleへの接続はできています。教材画面へ戻り、「登録・再送」または「Googleの画面で提出する」を押してください。</p>');
+  // Apps Script adds a sandbox iframe. The quiz may itself also be embedded.
+  // Notify each ancestor at the allowlisted origin; reply to the actual sender.
+  const html='<!doctype html><html><body><script>const channel='+JSON.stringify(channel)+', origin='+JSON.stringify(origin)+';let target=null;window.addEventListener("message",e=>{const d=e.data;if(e.origin!==origin||!d||d.channel!==channel||d.type!=="submit")return;target=e.source;google.script.run.withSuccessHandler(r=>target.postMessage({type:"result",channel,...r},origin)).withFailureHandler(()=>target.postMessage({type:"result",channel,ok:false,error:"Google側の実行に失敗しました。Googleの画面で再送するか先生に伝えてください。［Google実行エラー］"},origin)).submitPerfect(d.payload)});let p=window;for(let i=0;i<8;i++){try{if(p.parent===p)break;p=p.parent;p.postMessage({type:"ready",channel},origin)}catch(e){break}}</script></body></html>';
   return HtmlService.createHtmlOutput(html).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
+function directPage_(){
+  // A first-party Google page can sign in without relying on the quiz iframe's cookies.
+  // The URL fragment carries answers only; the student enters identity and code here.
+  return HtmlService.createHtmlOutput(`<!doctype html><html lang="ja"><head><base target="_top"><meta name="viewport" content="width=device-width,initial-scale=1"><title>満点の提出</title><style>body{font:17px/1.7 system-ui;color:#173b72;background:#eef4fa;padding:20px}main{max-width:640px;margin:auto;background:white;padding:24px;border-radius:16px}label{display:block;margin:14px 0}input{font:20px system-ui;padding:8px;width:180px;max-width:90%}button{font:18px system-ui;padding:12px 20px;background:#173b72;color:white;border:0;border-radius:8px}button:disabled{opacity:.5}#status{white-space:pre-wrap}</style></head><body><main><h1>満点の提出</h1><p id="task">満点の回答を読み込んでいます…</p><p>教材で満点になった回答を、ここで確認して先生に送ります。学校のGoogleアカウントで開いてください。</p><form id="form"><label>学年 <input name="grade" inputmode="numeric" required maxlength="2"></label><label>組 <input name="group" inputmode="numeric" required maxlength="2"></label><label>出席番号 <input name="number" inputmode="numeric" required maxlength="2"></label><label>提出コード <input name="code" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required maxlength="64"></label><button id="send" disabled>確認して提出</button></form><p id="status" role="status" aria-live="polite"></p><p>この画面で「提出済み」と確認できれば完了です。元の教材画面の表示が変わらなくても、再提出は不要です。</p></main><script>
+  const names=${JSON.stringify(TASKS_)},form=document.querySelector('#form'),status=document.querySelector('#status'),button=document.querySelector('#send');let packet=null,tries=0;
+  google.script.url.getLocation(loc=>{try{let raw=loc.hash||'';try{packet=JSON.parse(raw)}catch(e){packet=JSON.parse(decodeURIComponent(raw))}if(!packet||!Object.prototype.hasOwnProperty.call(names,packet.task)||!packet.answers)throw Error();document.querySelector('#task').textContent=names[packet.task];button.disabled=false;status.textContent='学年・組・番号・提出コードを入力してください。'}catch(e){packet=null;status.textContent='回答が引き継がれていません。元の教材画面へ戻り、「Googleの画面で提出する」をもう一度押してください。ログインで戻された場合も、教材から開き直してください。'}});
+  form.onsubmit=e=>{e.preventDefault();if(!packet)return;tries=0;submit()};
+  function submit(){const student=Object.fromEntries(['grade','group','number','code'].map(k=>[k,form.elements[k].value.normalize('NFKC').trim()]));button.disabled=true;status.textContent='確認して保存しています…';google.script.run.withSuccessHandler(r=>{if(r.ok){status.textContent=r.duplicate?'提出済みです。この課題はすでに記録されています。重複加点はありません。':'提出済みです。満点の達成を記録しました。';form.querySelectorAll('input').forEach(x=>x.disabled=true)}else if(r.retryable&&tries<2){tries++;status.textContent='受付が混み合っています。少し待って再送します。';setTimeout(submit,2500+Math.random()*4000)}else{button.disabled=false;status.textContent=r.error||'保存できませんでした。再送してください。'}}).withFailureHandler(()=>{button.disabled=false;status.textContent='Google側で処理できませんでした。時間をおいて再送するか、先生にこの画面を見せてください。［Google実行エラー］'}).submitPerfect({task:packet.task,answers:packet.answers,student})}
+  </script></body></html>`).setTitle('満点の提出').addMetaTag('viewport','width=device-width,initial-scale=1');
+}
+function rejection_(reason,error,retryable){return {ok:false,reason,error,retryable:!!retryable}}
+function codeText_(v){return String(v==null?'':v).normalize('NFKC').trim()}
 function submitPerfect(payload){
   try{
-    if(!payload||JSON.stringify(payload).length>20000||!Object.prototype.hasOwnProperty.call(TASKS_,payload.task))throw Error('提出内容が不正です。');
-    const s=payload.student||{},nums=['grade','group','number'].map(k=>Number(s[k]));
-    if(nums.some(x=>!Number.isInteger(x)||x<1)||nums[0]>6||nums[1]>30||nums[2]>99)throw Error('学年・組・出席番号を確認してください。');
-    const ss=book_(),roster=ss.getSheetByName('名簿').getDataRange().getValues().slice(1);
-    const found=roster.filter(r=>nums.every((n,i)=>Number(r[i])===n));
-    if(found.length!==1||!found[0][3]||String(found[0][3])!==String(s.code||''))throw Error('学年・組・番号・提出コードを確認してください。');
-    if(!perfect_(payload.task,payload.answers))throw Error('満点を確認できませんでした。問題をやり直してください。');
-    const lock=LockService.getScriptLock();lock.waitLock(25000);
+    if(!payload||JSON.stringify(payload).length>20000)return rejection_('PAYLOAD','提出内容を読み込めませんでした。教材画面から開き直してください。');
+    if(!Object.prototype.hasOwnProperty.call(TASKS_,payload.task))return rejection_('TASK','先生側の提出受付コードの更新が必要です。［課題未登録］');
+    const s=payload.student||{},nums=['grade','group','number'].map(k=>Number(codeText_(s[k])));
+    if(nums.some(x=>!Number.isInteger(x)||x<1)||nums[0]>6||nums[1]>30||nums[2]>99)return rejection_('NUMBER','学年・組・出席番号を確認してください。');
+    const ss=book_(),roster=ss.getSheetByName('名簿').getDataRange().getDisplayValues().slice(1);
+    const found=roster.filter(r=>nums.every((n,i)=>Number(codeText_(r[i]))===n));
+    if(!found.length)return rejection_('ROSTER','この学年・組・番号が名簿にありません。入力を確認し、合っていれば先生に伝えてください。');
+    if(found.length!==1)return rejection_('ROSTER_DUPLICATE','先生側の名簿に同じ学年・組・番号が重複しています。先生に伝えてください。');
+    if(!codeText_(found[0][3])||codeText_(found[0][3])!==codeText_(s.code))return rejection_('CODE','提出コードが一致しません。英字の大文字・小文字も確認してください。');
+    if(!perfect_(payload.task,payload.answers))return rejection_('SCORE','提出先で満点と確認できませんでした。教材画面の採点結果を先生に見せてください。');
+    const lock=LockService.getScriptLock();if(!lock.tryLock(2000))return rejection_('BUSY','受付が混み合っています。少し待って再送してください。',true);
     try{
       const sh=ss.getSheetByName('満点記録'),now=new Date(),y=Number(Utilities.formatDate(now,'Asia/Tokyo','yyyy'))-(Number(Utilities.formatDate(now,'Asia/Tokyo','M'))<4?1:0);
       const duplicate=sh.getDataRange().getValues().slice(1).some(r=>Number(r[0])===y&&nums.every((n,i)=>Number(r[i+1])===n)&&r[4]===payload.task);
       if(!duplicate)sh.appendRow([y,...nums,payload.task,TASKS_[payload.task],now]);
       SpreadsheetApp.flush();return {ok:true,duplicate};
     }finally{lock.releaseLock()}
-  }catch(e){return {ok:false,error:e.message||'保存できませんでした。'};}
+  }catch(e){return rejection_('SERVER','Google側で保存できませんでした。先生に実行履歴の確認を依頼してください。［保存処理エラー］');}
 }
 function norm_(v){return String(v==null?'':v).normalize('NFKC').trim().replace(/[−－ー]/g,'-').replace(/\s+/g,'')}
 // 数値式を専用パーサーで評価します。受信文字列をeval/Functionに渡しません。

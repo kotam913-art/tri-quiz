@@ -229,7 +229,7 @@ function patchHtml(html) {
   out = out.replace('<button id="gradeBtn">採点する</button>', '<button id="gradeBtn">提出して採点</button>');
   out = out.replace('<strong>使い方：</strong>□に答えを入力して「採点する」。<br>', '<strong>使い方：</strong>□に答えを入力して、5分以内に「提出して採点」。時間切れで自動採点し、入力をロックします。もう一度やる場合はリセットできます。<br>');
   out = out.replace(EVENT_BLOCK, TIMED_JS + '\n' + EVENT_BLOCK.replace('createInputs();', 'createInputs();\ninitTimedQuiz();'));
-  out=out.replace('<head>', '<head><script src="submission/config.js"><'+'/script><script src="submission/client.js"><'+'/script>');
+  out=out.replace('<head>', '<head><script src="submission/config.js"><'+'/script><script src="submission/client.js?v=3"><'+'/script>');
   out=out.replace("resultBox.innerHTML = msg;", "resultBox.innerHTML = msg; window.QuizSubmission?.graded('basic',ok,blanks.length,[...document.querySelectorAll('.blank input')].map(i=>i.value));");
   return out;
 }

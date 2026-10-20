@@ -9,11 +9,16 @@ assert(Number.isNaN(c.number_('process.exit()')));assert(Number.isNaN(c.number_(
 // Mock storage: no writes for wrong score/code, dedupe successful and repeated requests.
 const rows=[['年度','学年','組','番号','課題']];let locked=false;
 c.PropertiesService={getScriptProperties:()=>({getProperty:()=> 'test'})};
-c.LockService={getScriptLock:()=>({waitLock:()=>{locked=true},releaseLock:()=>{locked=false}})};
+c.LockService={getScriptLock:()=>({tryLock:()=>{locked=true;return true},releaseLock:()=>{locked=false}})};
 c.Utilities={formatDate:(d,z,f)=>f==='yyyy'?'2026':'10'};
-c.SpreadsheetApp={openById:()=>({getSheetByName:name=>name==='名簿'?{getDataRange:()=>({getValues:()=>[['学年','組','番号','コード'],[2,1,1,'secret']]})}:{getDataRange:()=>({getValues:()=>rows}),appendRow:r=>rows.push(r)}}),flush:()=>{}};
+c.SpreadsheetApp={openById:()=>({getSheetByName:name=>name==='名簿'?{getDataRange:()=>({getDisplayValues:()=>[['学年','組','番号','コード'],[2,1,1,'secret']]})}:{getDataRange:()=>({getValues:()=>rows}),appendRow:r=>rows.push(r)}}),flush:()=>{}};
 const p={task:'basic',answers:basic,student:{grade:2,group:1,number:1,code:'secret'}};
 assert(!c.submitPerfect({...p,answers:[]}).ok);assert.equal(rows.length,1);
 assert(!c.submitPerfect({...p,student:{...p.student,code:'wrong'}}).ok);assert.equal(rows.length,1);
 assert(c.submitPerfect(p).ok);assert.equal(rows.length,2);assert(c.submitPerfect(p).duplicate);assert.equal(rows.length,2);assert(!locked);
+assert(c.submitPerfect({...p,student:{grade:'２',group:'１',number:'１',code:' ｓｅｃｒｅｔ '}}).duplicate);
+c.LockService={getScriptLock:()=>({tryLock:()=>false})};
+assert(c.submitPerfect(p).retryable);assert.equal(rows.length,2);
+assert.equal(c.submitPerfect({...p,task:'not-a-task'}).reason,'TASK');
+assert.equal(c.submitPerfect({...p,student:{...p.student,code:'Secret'}}).reason,'CODE');
 console.log('PASS: 4 validators, malformed answers, identity, non-perfect rejection, duplicate prevention');
