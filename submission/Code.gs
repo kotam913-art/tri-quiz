@@ -46,18 +46,38 @@ function adminSetup(){requireEditor_();setup_()}
 function adminIssueCodes(){requireEditor_();issueCodes_()}
 function doGet(e){
   const params=e&&e.parameter||{};const channel=String(params.channel||''),origin=String(params.origin||'');
+  if(params.mode==='status'){
+    const callback=String(params.callback||''),data=JSON.stringify({version:5,post:true});
+    const jsonp=/^__quiz_status_[a-f0-9]{40}$/.test(callback);
+    return ContentService.createTextOutput(jsonp?'window['+JSON.stringify(callback)+']('+data+');':data).setMimeType(jsonp?ContentService.MimeType.JAVASCRIPT:ContentService.MimeType.JSON);
+  }
   if(params.mode==='submit')return directPage_();
   const allowedOrigins=['https://kotam913-art.github.io','https://raw.githack.com'];
-  if(!/^[\w-]{20,80}$/.test(channel)||!allowedOrigins.includes(origin))return HtmlService.createHtmlOutput('<meta name="viewport" content="width=device-width,initial-scale=1"><h2>提出受付 v4 に接続できました</h2><p>この画面が見える場合、Googleへの接続はできています。教材画面へ戻り、「登録・再送」または「Googleの画面で提出する」を押してください。</p>');
+  if(!/^[\w-]{20,80}$/.test(channel)||!allowedOrigins.includes(origin))return HtmlService.createHtmlOutput('<meta name="viewport" content="width=device-width,initial-scale=1"><h2>提出受付 v5 に接続できました</h2><p>この画面が見える場合、Googleへの接続はできています。教材画面へ戻り、「登録・再送」または「別画面で提出」を押してください。</p>');
   // Apps Script adds a sandbox iframe. The quiz may itself also be embedded.
   // Notify each ancestor at the allowlisted origin; reply to the actual sender.
-  const html='<!doctype html><html><body><script>const channel='+JSON.stringify(channel)+', origin='+JSON.stringify(origin)+';let target=null;window.addEventListener("message",e=>{const d=e.data;if(e.origin!==origin||!d||d.channel!==channel||d.type!=="submit")return;target=e.source;google.script.run.withSuccessHandler(r=>target.postMessage({type:"result",channel,...r},origin)).withFailureHandler(()=>target.postMessage({type:"result",channel,ok:false,error:"Google側の実行に失敗しました。Googleの画面で再送するか先生に伝えてください。［Google実行エラー］"},origin)).submitPerfect(d.payload)});let p=window;for(let i=0;i<8;i++){try{if(p.parent===p)break;p=p.parent;p.postMessage({type:"ready",channel},origin)}catch(e){break}}</script></body></html>';
+  const html='<!doctype html><html><body><script>const channel='+JSON.stringify(channel)+', origin='+JSON.stringify(origin)+';let target=null;window.addEventListener("message",e=>{const d=e.data;if(e.origin!==origin||!d||d.channel!==channel||d.type!=="submit")return;target=e.source;google.script.run.withSuccessHandler(r=>target.postMessage({type:"result",channel,...r},origin)).withFailureHandler(()=>target.postMessage({type:"result",channel,ok:false,error:"Google側の実行に失敗しました。Googleの画面で再送するか先生に伝えてください。［Google実行エラー］"},origin)).submitPerfect(d.payload)});let p=window;for(let i=0;i<8;i++){try{if(p.parent===p)break;p=p.parent;p.postMessage({type:"ready",channel,version:5},origin)}catch(e){break}}</script></body></html>';
   return HtmlService.createHtmlOutput(html).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+// Form POST opens Google as a top-level page when the embedded connection is blocked.
+// Reuse exactly the same code check, server grading, lock and deduplication.
+function doPost(e){
+  let payload;
+  try{const raw=String(e&&e.parameter&&e.parameter.payload||'');if(!raw||raw.length>20000)throw Error();payload=JSON.parse(raw)}
+  catch(error){return postResult_({ok:false,error:'提出内容を読み込めませんでした。元のクイズからもう一度提出してください。'})}
+  return postResult_(submitPerfect(payload),payload&&payload.task);
+}
+function postResult_(result,task){
+  const safe=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const title=result.ok?'提出済みです':'提出できませんでした';
+  const message=result.ok?(result.duplicate?'この課題はすでに記録されています。重複加点はありません。':'満点の達成を記録しました。この画面を閉じて構いません。'):result.error;
+  const name=Object.prototype.hasOwnProperty.call(TASKS_,task)?TASKS_[task]:'';
+  return HtmlService.createHtmlOutput('<!doctype html><html lang="ja"><head><base target="_top"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title><style>body{font:18px/1.8 system-ui;background:#eef4fa;color:#173b72;padding:24px}main{max-width:640px;margin:auto;background:white;padding:28px;border-radius:16px}h1{font-size:28px}a{color:#1659b9}</style></head><body><main><h1>'+title+'</h1><p>'+safe(name)+'</p><p role="status">'+safe(message)+'</p><p>元のクイズ画面には、この結果は自動で戻りません。この画面の表示で提出結果を確認してください。</p><p><a href="https://kotam913-art.github.io/tri-quiz/">教材一覧を開く</a></p></main></body></html>').setTitle(title).addMetaTag('viewport','width=device-width,initial-scale=1');
 }
 function directPage_(){
   // A first-party Google page can sign in without relying on the quiz iframe's cookies.
   // The URL fragment carries answers only; the student enters identity and code here.
-  return HtmlService.createHtmlOutput(`<!doctype html><html lang="ja"><head><base target="_top"><meta name="viewport" content="width=device-width,initial-scale=1"><title>満点の提出</title><style>body{font:17px/1.7 system-ui;color:#173b72;background:#eef4fa;padding:20px}main{max-width:640px;margin:auto;background:white;padding:24px;border-radius:16px}label{display:block;margin:14px 0}input{font:20px system-ui;padding:8px;width:180px;max-width:90%}button{font:18px system-ui;padding:12px 20px;background:#173b72;color:white;border:0;border-radius:8px}button:disabled{opacity:.5}#status{white-space:pre-wrap}</style></head><body><main><h1>満点の提出</h1><p id="task">満点の回答を読み込んでいます…</p><p>教材で満点になった回答を、ここで確認して先生に送ります。学校のGoogleアカウントで開いてください。</p><form id="form"><label>学年 <input name="grade" inputmode="numeric" required maxlength="2"></label><label>組 <input name="group" inputmode="numeric" required maxlength="2"></label><label>出席番号 <input name="number" inputmode="numeric" required maxlength="2"></label><label>提出コード <input name="code" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required maxlength="64"></label><button id="send" disabled>確認して提出</button></form><p id="status" role="status" aria-live="polite"></p><p>この画面で「提出済み」と確認できれば完了です。元の教材画面の表示が変わらなくても、再提出は不要です。</p></main><script>
+  return HtmlService.createHtmlOutput(`<!doctype html><html lang="ja"><head><base target="_top"><meta name="viewport" content="width=device-width,initial-scale=1"><title>満点の提出</title><style>body{font:17px/1.7 system-ui;color:#173b72;background:#eef4fa;padding:20px}main{max-width:640px;margin:auto;background:white;padding:24px;border-radius:16px}label{display:block;margin:14px 0}input{font:20px system-ui;padding:8px;width:180px;max-width:90%}button{font:18px system-ui;padding:12px 20px;background:#173b72;color:white;border:0;border-radius:8px}button:disabled{opacity:.5}#status{white-space:pre-wrap}</style></head><body><main><h1>満点の提出</h1><p id="task">満点の回答を読み込んでいます…</p><p>教材で満点になった回答を、ここで確認して先生に送ります。ログイン画面が出た場合は学校のGoogleアカウントを使ってください。</p><form id="form"><label>学年 <input name="grade" inputmode="numeric" required maxlength="2"></label><label>組 <input name="group" inputmode="numeric" required maxlength="2"></label><label>出席番号 <input name="number" inputmode="numeric" required maxlength="2"></label><label>提出コード <input name="code" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required maxlength="64"></label><button id="send" disabled>確認して提出</button></form><p id="status" role="status" aria-live="polite"></p><p>この画面で「提出済み」と確認できれば完了です。元の教材画面の表示が変わらなくても、再提出は不要です。</p></main><script>
   const names=${JSON.stringify(TASKS_)},form=document.querySelector('#form'),status=document.querySelector('#status'),button=document.querySelector('#send');let packet=null,tries=0;
   google.script.url.getLocation(loc=>{try{let raw=loc.hash||'';try{packet=JSON.parse(raw)}catch(e){packet=JSON.parse(decodeURIComponent(raw))}if(!packet||!Object.prototype.hasOwnProperty.call(names,packet.task)||!packet.answers)throw Error();document.querySelector('#task').textContent=names[packet.task];button.disabled=false;status.textContent='学年・組・番号・提出コードを入力してください。'}catch(e){packet=null;status.textContent='回答が引き継がれていません。元の教材画面へ戻り、「Googleの画面で提出する」をもう一度押してください。ログインで戻された場合も、教材から開き直してください。'}});
   form.onsubmit=e=>{e.preventDefault();if(!packet)return;tries=0;submit()};

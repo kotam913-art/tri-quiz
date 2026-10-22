@@ -21,4 +21,14 @@ c.LockService={getScriptLock:()=>({tryLock:()=>false})};
 assert(c.submitPerfect(p).retryable);assert.equal(rows.length,2);
 assert.equal(c.submitPerfect({...p,task:'not-a-task'}).reason,'TASK');
 assert.equal(c.submitPerfect({...p,student:{...p.student,code:'Secret'}}).reason,'CODE');
+// Top-level POST uses the same validator and duplicate guard; no credential echo.
+let html='';c.HtmlService={createHtmlOutput:s=>{html=s;return {setTitle(){return this},addMetaTag(){return this}}}};
+c.LockService={getScriptLock:()=>({tryLock:()=>true,releaseLock(){}})};
+c.doPost({parameter:{payload:JSON.stringify(p)}});assert(html.includes('提出済みです'));assert(html.includes('すでに記録されています'));assert.equal(rows.length,2);assert(!html.includes('secret'));
+c.doPost({parameter:{payload:JSON.stringify({...p,student:{...p.student,code:'wrong'}})}});assert(html.includes('提出できませんでした'));assert.equal(rows.length,2);
+c.doPost({parameter:{payload:JSON.stringify({...p,answers:[]})}});assert(html.includes('満点と確認できませんでした'));assert.equal(rows.length,2);
+for(const raw of ['{broken', 'null', 'x'.repeat(20001)]){c.doPost({parameter:{payload:raw}});assert(html.includes('提出できませんでした'));assert.equal(rows.length,2)}
+c.doPost();assert(html.includes('提出できませんでした'));
+c.doPost({parameter:{payload:JSON.stringify({task:'explog-01',answers:['1','1/16','2','-5','-4','-8'],student:p.student})}});assert(html.includes('満点の達成を記録しました'));assert.equal(rows.length,3);
+c.postResult_({ok:false,error:'<img src=x onerror=alert(1)>'},'basic');assert(!html.includes('<img'));assert(html.includes('&lt;img'));
 console.log('PASS: 4 validators, malformed answers, identity, non-perfect rejection, duplicate prevention');
