@@ -47,7 +47,8 @@ function adminIssueCodes(){requireEditor_();issueCodes_()}
 function doGet(e){
   const params=e&&e.parameter||{};const channel=String(params.channel||''),origin=String(params.origin||'');
   if(params.mode==='submit')return directPage_();
-  if(!/^[\w-]{20,80}$/.test(channel)||origin!=='https://raw.githack.com')return HtmlService.createHtmlOutput('<meta name="viewport" content="width=device-width,initial-scale=1"><h2>提出受付 v3 に接続できました</h2><p>この画面が見える場合、Googleへの接続はできています。教材画面へ戻り、「登録・再送」または「Googleの画面で提出する」を押してください。</p>');
+  const allowedOrigins=['https://kotam913-art.github.io','https://raw.githack.com'];
+  if(!/^[\w-]{20,80}$/.test(channel)||!allowedOrigins.includes(origin))return HtmlService.createHtmlOutput('<meta name="viewport" content="width=device-width,initial-scale=1"><h2>提出受付 v4 に接続できました</h2><p>この画面が見える場合、Googleへの接続はできています。教材画面へ戻り、「登録・再送」または「Googleの画面で提出する」を押してください。</p>');
   // Apps Script adds a sandbox iframe. The quiz may itself also be embedded.
   // Notify each ancestor at the allowlisted origin; reply to the actual sender.
   const html='<!doctype html><html><body><script>const channel='+JSON.stringify(channel)+', origin='+JSON.stringify(origin)+';let target=null;window.addEventListener("message",e=>{const d=e.data;if(e.origin!==origin||!d||d.channel!==channel||d.type!=="submit")return;target=e.source;google.script.run.withSuccessHandler(r=>target.postMessage({type:"result",channel,...r},origin)).withFailureHandler(()=>target.postMessage({type:"result",channel,ok:false,error:"Google側の実行に失敗しました。Googleの画面で再送するか先生に伝えてください。［Google実行エラー］"},origin)).submitPerfect(d.payload)});let p=window;for(let i=0;i<8;i++){try{if(p.parent===p)break;p=p.parent;p.postMessage({type:"ready",channel},origin)}catch(e){break}}</script></body></html>';

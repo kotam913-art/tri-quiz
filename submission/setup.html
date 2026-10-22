@@ -1,21 +1,22 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>満点提出・受付v3の設定</title>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>満点提出・受付v4の設定</title>
 <style>body{font:17px/1.8 system-ui;background:#edf3fa;color:#173b72;margin:0;padding:24px}main{max-width:780px;margin:auto;background:white;padding:28px;border-radius:20px}h1{font-size:28px}li{margin:18px 0}button{background:#173b72;color:white;padding:12px 18px;border:0;border-radius:9px;cursor:pointer;font:inherit}textarea{width:100%;height:180px;font:12px monospace;box-sizing:border-box}aside{background:#eef5ff;padding:16px;border-radius:12px;margin:16px 0}a{color:#1659b9}</style></head>
-<body><main><p>先生用 · 受付 v3 · 2026-10-20</p><h1>満点の結果をスプレッドシートへ</h1>
-<aside><b>送信できない生徒がいる場合の更新</b><ol>
+<body><main><p>先生用 · 受付 v4 · 2026-10-22</p><h1>満点の結果をスプレッドシートへ</h1>
+<aside><b>スマホで403になる場合</b><p>生徒には <a href="https://kotam913-art.github.io/tri-quiz/">https://kotam913-art.github.io/tri-quiz/</a> を配布してください。Classroomに貼った古いURLも差し替えます。クイズは外部のHTML配信サービスを経由せずに開きます。</p><p>新URLからの自動提出には、下の受付コードへの更新が一度必要です。更新前でも、満点後の「Googleの画面で提出する」から提出できます。</p></aside>
+<aside><b>新URLからの自動提出を有効にする更新</b><ol>
 <li>下の「最新版コードをコピー」を押します。</li>
 <li>集計用スプレッドシート →「拡張機能 → Apps Script」→「コード.gs」の内容全体を置き換えて保存します。</li>
 <li>「デプロイ → デプロイを管理」→ 今使っているウェブアプリ → 鉛筆マーク → バージョン「新バージョン」→「デプロイ」。新しいデプロイは作りません。</li>
-<li>実行ユーザーは先生の「自分」、アクセス範囲は学校の規則の範囲で生徒に許可されているものを確認します。匿名公開や学校の制限解除は不要です。</li>
-<li>生徒の教材画面を再読み込みします。自動で送れない場合は、満点後の「Googleの画面で提出する」で開き、学年・組・番号・コードを入力します。学校のGoogleアカウントで開いてください。</li>
+<li>実行ユーザーは先生の「自分」。Googleログインなしで使う場合、アクセスできるユーザーは「全員」にします。学校の管理設定で選べない場合は、学校で許可された設定を使います。集計用スプレッドシート自体は生徒へ共有しません。</li>
+<li>生徒は新URLから教材画面を開き直します。自動で送れない場合は、満点後の「Googleの画面で提出する」で開き、学年・組・番号・コードを入力します。Googleのログイン画面が出る設定の場合は学校アカウントを使います。</li>
 </ol><p>今回は名簿・提出コード・満点記録を作り直す必要はありません。集計シートの更新も必要な場合だけ、エディタ上部で <b>adminSetup</b> を選んで実行します。</p></aside>
-<p><button id="copy" disabled>最新版コードをコピー</button> <a href="Code.gs?v=3" download>コードを保存</a></p><p id="status" role="status">最新版を読み込んでいます…</p><textarea id="code" readonly aria-label="設定用コード"></textarea>
+<p><button id="copy" disabled>最新版コードをコピー</button> <a href="Code.gs?v=4" download>コードを保存</a></p><p id="status" role="status">最新版を読み込んでいます…</p><textarea id="code" readonly aria-label="設定用コード"></textarea>
 <h2>更新後の確認</h2><p>送信できなかった生徒端末で、満点の提出が「満点記録」に入り、同じ課題を再送しても増えないことを確認してください。直接提出の完了はGoogleの別画面で表示されます。元の教材画面には完了が戻らないため、そちらの表示更新を待つ必要はありません。</p>
 <p>ログイン後に「回答が引き継がれていません」と表示されたら、教材に戻って「Googleの画面で提出する」を押し直します。満点の取り直しは不要です。アクセス権のエラーが出る場合は学校の設定確認が必要です。</p>
 <details><summary>初めて設定する場合</summary><ol><li>学校アカウントで空のGoogleスプレッドシートを作成。生徒へ共有しません。</li><li>上のコードをApps Scriptへ貼り付けて保存し、<b>adminSetup</b>を実行します。名簿・満点記録・集計・単元別集計2枚の計5シートが作られます。</li><li>「名簿」へ学年・組・番号を入力して<b>adminIssueCodes</b>を実行。D列のコードは本人分だけ配布します。</li><li>「新しいデプロイ → ウェブアプリ」で、実行ユーザー「自分」、学校で許可されたアクセス範囲でデプロイします。</li><li>発行された/execのURLを担当者へ伝え、サイトの接続先を設定します。</li></ol></details>
 <p><a href="https://github.com/kotam913-art/tri-quiz/blob/main/submission/README.md">詳しい設定・確認手順</a> · <a href="../index.html">教材一覧へ</a></p></main>
 <script>
 const box=document.querySelector('#code'),status=document.querySelector('#status'),copy=document.querySelector('#copy');
-fetch('Code.gs?v=3',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.text()}).then(s=>{if(!s.includes('function directPage_'))throw Error();box.value=s;copy.disabled=false;status.textContent='受付 v3 のコードを読み込みました。'}).catch(()=>status.textContent='最新版を読み込めませんでした。再読み込みするか「コードを保存」から開いてください。');
+fetch('Code.gs?v=4',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.text()}).then(s=>{if(!s.includes("'https://kotam913-art.github.io'"))throw Error();box.value=s;copy.disabled=false;status.textContent='GitHub Pages対応の受付 v4 を読み込みました。'}).catch(()=>status.textContent='最新版を読み込めませんでした。再読み込みするか「コードを保存」から開いてください。');
 copy.onclick=async()=>{if(!box.value)return;try{await navigator.clipboard.writeText(box.value);status.textContent='コピーしました。Apps Scriptのコード全体を置き換えてください。'}catch(e){box.focus();box.select();status.textContent='コードを選択しました。コピーしてください。'}};
 </script></body></html>

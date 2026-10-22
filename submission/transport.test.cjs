@@ -38,6 +38,16 @@ const quiz={parent:top,postMessage:d=>posted.push(['quiz',d])};const wrapper={pa
 const runner={withSuccessHandler(f){this.ok=f;return this},withFailureHandler(){return this},submitPerfect(){this.ok({ok:true})}};
 const bw={parent:wrapper,addEventListener:(k,f)=>bridgeHandler=f};vm.runInNewContext(bridgeScript,{window:bw,google:{script:{run:runner}}});assert(posted.some(p=>p[0]==='quiz'));
 let receipt;bridgeHandler({origin:'https://raw.githack.com',source:{postMessage:d=>receipt=d},data:{type:'submit',channel:'a'.repeat(40),payload:{}}});assert(receipt.ok);
+// Both published hosts work; unrelated and lookalike hosts never get a bridge.
+gas.doGet({parameter:{channel:'a'.repeat(40),origin:'https://kotam913-art.github.io'}});
+assert(html.includes('postMessage'));
+const pagesScript=html.match(/<script>([\s\S]*)<\/script>/)[1];let pagesHandler,pagesReceipt;
+vm.runInNewContext(pagesScript,{window:{parent:top,addEventListener:(k,f)=>pagesHandler=f},google:{script:{run:runner}}});
+pagesHandler({origin:'https://evil.test',source:{postMessage:d=>pagesReceipt=d},data:{type:'submit',channel:'a'.repeat(40),payload:{}}});assert.equal(pagesReceipt,undefined);
+pagesHandler({origin:'https://kotam913-art.github.io',source:{postMessage:d=>pagesReceipt=d},data:{type:'submit',channel:'a'.repeat(40),payload:{}}});assert(pagesReceipt.ok);
+for(const origin of ['https://evil.test','https://kotam913-art.github.io.evil.test','http://kotam913-art.github.io']){
+  gas.doGet({parameter:{channel:'a'.repeat(40),origin}});assert(!html.includes('postMessage'));
+}
 gas.doGet({parameter:{mode:'submit'}});assert(html.includes('google.script.url.getLocation'));assert(html.includes('submitPerfect'));
 new vm.Script(html.match(/<script>([\s\S]*)<\/script>/)[1]);
 console.log('PASS: iframe nesting, Unicode inputs, credential-free direct link, timeout handling, verified receipts, direct-page syntax');
