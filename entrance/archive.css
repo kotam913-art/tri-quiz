@@ -1,0 +1,22 @@
+.course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:18px;margin:24px 0}
+.course-card{display:flex;flex-direction:column;gap:8px;background:#fff;border:1px solid #d0dce7;border-radius:18px;padding:25px;color:inherit;text-decoration:none;box-shadow:0 5px 18px #18304706}
+.course-card h2{font-size:24px;line-height:1.5;margin:5px 0}
+.course-card p{margin:5px 0}
+.course-card .go{margin-top:auto;padding-top:18px;color:#185bb0;font-weight:700}
+.course-card:hover{border-color:#7195b7;box-shadow:0 7px 23px #18304712}
+.source-body{font-size:17px;line-height:2;overflow-wrap:anywhere;color:#183047}
+.source-line{margin:.4em 0;line-height:2.1}
+.formula-wrap{display:inline-block;max-width:100%;overflow-x:auto;vertical-align:middle;line-height:1.2;margin:2px 1px}
+.formula-wrap img{display:block;max-width:none;object-fit:contain;background:#fff}
+.chapter-intro{border-left:3px solid #a6c3d7;padding:6px 16px;margin:10px 0 22px;background:#edf4fa}
+.chapter-intro .source-line{font-size:14px;color:#526b82;line-height:1.8}
+.chapter-intro .formula-wrap{font-size:17px}
+.source-solution{border:1px solid #c7dbd6;border-radius:12px;padding:18px;background:#f2f8f6;margin-top:16px}
+.question-card details{margin-bottom:6px}
+.coursebar .back-link{white-space:nowrap;font-size:14px}
+.question-heading{flex-wrap:wrap;gap:8px}
+.question-heading h3{margin-bottom:0}
+.print-item .source-body{font-size:12pt}
+.archive-print-title{font-size:22px}
+@media(max-width:600px){.course-grid{grid-template-columns:1fr}.coursebar{flex-wrap:wrap}.source-body{font-size:16px}.chapter-intro{padding-left:11px}.source-solution{padding:14px 12px}.question-heading h3{font-size:15px}}
+@media print{.source-body{color:#000}.source-line{line-height:1.8}.formula-wrap{overflow:visible;max-width:none;break-inside:avoid}.formula-wrap img{max-width:100%}.chapter-intro{background:#fff}.print-item{break-inside:avoid}.archive-print-title{display:block}.exercise-section{break-before:auto}}
